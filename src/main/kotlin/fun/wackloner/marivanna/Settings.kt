@@ -13,4 +13,5 @@ object Settings {
     }
 
     val API_TOKEN: String = properties.getProperty("bot.api_token")
+    val BOT_USERNAME: String = Settings.properties.getProperty("bot.username")
 }
