@@ -4,7 +4,7 @@ import java.util.*
 
 
 object Settings {
-    val properties: Properties by lazy {
+    private val properties: Properties by lazy {
         val stream = this::class.java.classLoader.getResource("application.properties")?.openStream()
         val res = Properties()
         res.load(stream)
@@ -13,5 +13,5 @@ object Settings {
     }
 
     val API_TOKEN: String = properties.getProperty("bot.api_token")
-    val BOT_USERNAME: String = Settings.properties.getProperty("bot.username")
+    val BOT_USERNAME: String = properties.getProperty("bot.username")
 }

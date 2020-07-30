@@ -1,35 +1,41 @@
 package `fun`.wackloner.marivanna
 
+import `fun`.wackloner.marivanna.commands.AddTranslationCommand
 import mu.KotlinLogging
 import org.apache.http.client.utils.URIBuilder
 import org.springframework.stereotype.Component
-import org.telegram.telegrambots.bots.TelegramLongPollingBot
-import org.telegram.telegrambots.extensions.bots.commandbot.commands.CommandRegistry
-import org.telegram.telegrambots.meta.api.objects.Message
+import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot
+import org.telegram.telegrambots.meta.TelegramBotsApi
 import org.telegram.telegrambots.meta.api.objects.Update
+import org.telegram.telegrambots.meta.exceptions.TelegramApiException
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
+import javax.annotation.PostConstruct
 
 
 @Component
-class Bot : TelegramLongPollingBot() {
+class Bot : TelegramLongPollingCommandBot() {
     companion object {
         const val TELEGRAM_BASE_URL = "https://api.telegram.org"
 
         private val logger = KotlinLogging.logger {}
     }
 
+    @PostConstruct
+    fun registerBot() {
+        val telegramBotsApi = TelegramBotsApi()
+        try {
+            telegramBotsApi.registerBot(this)
+        } catch (e: TelegramApiException) {
+            e.printStackTrace()
+        }
+
+        register(AddTranslationCommand())
+    }
+
     // TODO: provide settings for it
     private val httpClient: HttpClient = HttpClient.newHttpClient()
-
-    private val commandRegistry:CommandRegistry by lazy {
-        CommandRegistry(true, getBotUsername())
-    }
-
-    fun processNonCommandUpdate(update: Update) {
-
-    }
 
     fun sendText(chat_id: Long, text: String): Boolean {
         val uriBuilder = URIBuilder("$TELEGRAM_BASE_URL/bot${Settings.API_TOKEN}/sendMessage")
@@ -43,28 +49,12 @@ class Bot : TelegramLongPollingBot() {
         return response.statusCode() == 200
     }
 
-    override fun onUpdateReceived(update: Update) {
-        if (update.hasMessage()) {
-            val message: Message = update.message
-            if (message.isCommand() && !filter(message)) {
-                if (!commandRegistry.executeCommand(this, message)) {
-                    //we have received a not registered command, handle it as invalid
-                    processInvalidCommandUpdate(update)
-                }
-                return
-            }
-        }
-
-        logger.debug { "New update: ${update.message.text}" }
-        sendText(update.message.chat.id, "o hi mark")
+    override fun processNonCommandUpdate(update: Update) {
+        sendText(update.message.chatId, "oh hi mark")
     }
 
     override fun getBotUsername(): String = Settings.BOT_USERNAME
 
     override fun getBotToken(): String = Settings.API_TOKEN
-
-    protected fun filter(message: Message?): Boolean = false
-
-    protected fun processInvalidCommandUpdate(update: Update) = processNonCommandUpdate(update)
 
 }

@@ -2,26 +2,20 @@ package `fun`.wackloner.marivanna
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
+import org.springframework.context.annotation.Bean
 import org.telegram.telegrambots.ApiContextInitializer
-import org.telegram.telegrambots.meta.TelegramBotsApi
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException
+import org.telegram.telegrambots.extensions.bots.commandbot.commands.CommandRegistry
 
 
 @SpringBootApplication
-class MarivannaApplication
+class MarivannaApplication {
+	@Bean
+	fun getCommandRegistry(): CommandRegistry = CommandRegistry(true, Settings.BOT_USERNAME)
+
+}
 
 fun main(args: Array<String>) {
 	ApiContextInitializer.init()
-
-	val botsApi = TelegramBotsApi()
-	val bot = Bot()
-
-	try {
-		botsApi.registerBot(bot)
-	} catch (e: TelegramApiException) {
-		e.printStackTrace()
-		return
-	}
 
 	runApplication<MarivannaApplication>(*args)
 }
