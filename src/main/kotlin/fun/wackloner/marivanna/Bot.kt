@@ -1,10 +1,11 @@
 package `fun`.wackloner.marivanna
 
-import `fun`.wackloner.marivanna.commands.AddTranslationCommand
 import mu.KotlinLogging
 import org.apache.http.client.utils.URIBuilder
+import org.springframework.context.ApplicationContext
 import org.springframework.stereotype.Component
 import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot
+import org.telegram.telegrambots.extensions.bots.commandbot.commands.IBotCommand
 import org.telegram.telegrambots.meta.TelegramBotsApi
 import org.telegram.telegrambots.meta.api.objects.Update
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException
@@ -15,7 +16,7 @@ import javax.annotation.PostConstruct
 
 
 @Component
-class Bot : TelegramLongPollingCommandBot() {
+class Bot(private val applicationContext: ApplicationContext) : TelegramLongPollingCommandBot() {
     companion object {
         const val TELEGRAM_BASE_URL = "https://api.telegram.org"
 
@@ -23,7 +24,7 @@ class Bot : TelegramLongPollingCommandBot() {
     }
 
     @PostConstruct
-    fun registerBot() {
+    fun register() {
         val telegramBotsApi = TelegramBotsApi()
         try {
             telegramBotsApi.registerBot(this)
@@ -31,7 +32,9 @@ class Bot : TelegramLongPollingCommandBot() {
             e.printStackTrace()
         }
 
-        register(AddTranslationCommand())
+        val commands: Map<IBotCommand, Boolean> = emptyMap()
+//        val commands = applicationContext.getBeansOfType(IBotCommand.class) // TODO: swap this line and the prev one
+        registerAll(*commands.keys.toTypedArray())
     }
 
     // TODO: provide settings for it
