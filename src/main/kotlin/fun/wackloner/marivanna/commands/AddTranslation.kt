@@ -1,10 +1,10 @@
 package `fun`.wackloner.marivanna.commands
 
+import `fun`.wackloner.marivanna.Bot
 import `fun`.wackloner.marivanna.managers.Translation
 import `fun`.wackloner.marivanna.managers.TranslationRepository
 import org.springframework.beans.factory.annotation.Autowired
 
-import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Component
 import org.telegram.telegrambots.meta.api.objects.Message
 
@@ -15,18 +15,19 @@ class AddTranslationCommand : KoreshCommand("add_translation", "add new translat
     @Autowired
     private lateinit var translationRepository: TranslationRepository
 
-    override fun process(message: Message, arguments: Array<out String>) {
+    override fun process(bot: Bot, message: Message, arguments: Array<String>) {
         val text = arguments.joinToString(" ")
         if (!text.contains(" - ")) {
-            sendText(message.chatId, "Тире ннада..")
+            bot.sendText(message.chatId, "Тире ннада..")
             return
         }
 
+        val userId = message.from.id
         val parts = text.split(" - ")
-        translationRepository.insert(Translation(null, parts[0], parts[1]))
+        translationRepository.insert(Translation(parts[0], parts[1], userId))
 
-        val response = translationRepository.getAll(Pageable.unpaged()).joinToString("\n")
-        sendText(message.chatId, response)
+        val response = translationRepository.findByUserId(userId).joinToString("\n")
+        bot.sendText(message.chatId, response)
     }
 
 }

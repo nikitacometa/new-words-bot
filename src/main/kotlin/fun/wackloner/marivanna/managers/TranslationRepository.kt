@@ -1,15 +1,23 @@
 package `fun`.wackloner.marivanna.managers
 
+import org.bson.types.ObjectId
 import org.springframework.data.annotation.Id
-import org.springframework.data.domain.Page
-import org.springframework.data.domain.Pageable
 import org.springframework.data.mongodb.core.mapping.Document
 import org.springframework.data.mongodb.repository.MongoRepository
+import java.time.LocalDateTime
 
-@Document data class Translation(@Id var id: String?, val source: String, val translation: String)
+@Document
+data class Translation(
+        val source: String,
+        val translation: String,
+        val userId: Int,
+        @Id val id: ObjectId = ObjectId.get(),
+        val createdDate: LocalDateTime = LocalDateTime.now(),
+        val modifiedDate: LocalDateTime = LocalDateTime.now()
+)
 
 interface TranslationRepository : MongoRepository<Translation, String> {
-    fun insert(t: Translation): Translation
+    override fun <T : Translation> save(t: T): T
 
-    fun getAll(p: Pageable): Page<Translation>
+    fun findByUserId(userId: Int): List<Translation>
 }
