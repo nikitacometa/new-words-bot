@@ -16,8 +16,6 @@ class MarivannaApplication {
 }
 
 fun main(args: Array<String>) {
-	ApiContextInitializer.init()
-
 	val applicationContext: ApplicationContext = runApplication<MarivannaApplication>(*args)
 	applicationContext.beanDefinitionNames.forEach { println(it) }
 

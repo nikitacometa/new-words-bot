@@ -16,7 +16,7 @@ data class Translation(
         val modifiedDate: LocalDateTime = LocalDateTime.now()
 )
 
-interface TranslationRepository : MongoRepository<Translation, String> {
+interface TranslationRepository : MongoRepository<Translation, ObjectId> {
     override fun <T : Translation> save(t: T): T
 
     fun findByUserId(userId: Int): List<Translation>

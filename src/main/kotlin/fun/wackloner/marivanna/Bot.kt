@@ -4,6 +4,7 @@ import `fun`.wackloner.marivanna.commands.KoreshCommand
 import mu.KotlinLogging
 import org.springframework.context.ApplicationContext
 import org.springframework.stereotype.Component
+import org.telegram.telegrambots.ApiContextInitializer
 import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot
 import org.telegram.telegrambots.meta.TelegramBotsApi
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage
@@ -17,6 +18,10 @@ import javax.annotation.PostConstruct
 class Bot(private val applicationContext: ApplicationContext) : TelegramLongPollingCommandBot() {
     companion object {
         const val TELEGRAM_BASE_URL = "https://api.telegram.org"
+
+        init {
+            ApiContextInitializer.init()
+        }
 
         private val logger = KotlinLogging.logger {}
     }

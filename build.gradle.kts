@@ -27,14 +27,13 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-devtools")
 	implementation("org.springframework:spring-web:5.2.8.RELEASE")
 
-	implementation("org.telegram:telegrambots:4.9")
-	implementation("org.telegram:telegrambotsextensions:4.9")
+	implementation("org.telegram:telegrambots:4.9.1")
+	implementation("org.telegram:telegrambotsextensions:4.9.1")
 
 	implementation("com.google.cloud:google-cloud-translate:1.12.0")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.junit.jupiter:junit-jupiter-api:5.3.1")
-	testImplementation("org.junit.jupiter:org.junit.runner:5.3.1")
 	testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.3.1")
 }
 
