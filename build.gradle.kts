@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "fun.wackloner"
-version = "0.0.1-SNAPSHOT"
+version = "0.4.2.0"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 repositories {
@@ -22,10 +22,10 @@ dependencies {
 	implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 	implementation("io.github.microutils:kotlin-logging:1.7.8")
 
-	implementation("org.springframework.boot:spring-boot-starter")
+	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-data-mongodb")
 	implementation("org.springframework.boot:spring-boot-devtools")
-	implementation("org.springframework:spring-web:5.2.8.RELEASE")
+	implementation("com.fasterxml.jackson.datatype:jackson-datatype-joda:2.11.2")
 
 	implementation("org.telegram:telegrambots:4.9.1")
 	implementation("org.telegram:telegrambotsextensions:4.9.1")
@@ -33,6 +33,7 @@ dependencies {
 	implementation("com.google.cloud:google-cloud-translate:1.12.0")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+
 	testImplementation("org.junit.jupiter:junit-jupiter-api:5.3.1")
 	testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.3.1")
 }

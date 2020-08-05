@@ -15,7 +15,10 @@ import javax.annotation.PostConstruct
 
 
 @Component
-class Bot(private val applicationContext: ApplicationContext) : TelegramLongPollingCommandBot() {
+class Bot(
+        private val applicationContext: ApplicationContext
+) : TelegramLongPollingCommandBot() {
+
     companion object {
         const val TELEGRAM_BASE_URL = "https://api.telegram.org"
 

@@ -1,24 +1,27 @@
 package `fun`.wackloner.marivanna
 
+import mu.KotlinLogging
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
-import org.springframework.context.ApplicationContext
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import org.springframework.context.annotation.Bean
-import org.telegram.telegrambots.ApiContextInitializer
+import org.springframework.core.env.Environment
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.CommandRegistry
 
 
+val logger = KotlinLogging.logger {}
+
 @SpringBootApplication
-class MarivannaApplication {
+class MarivannaApplication : SpringBootServletInitializer() {
 	@Bean
 	fun getCommandRegistry(): CommandRegistry = CommandRegistry(true, Settings.BOT_USERNAME)
 
 }
 
 fun main(args: Array<String>) {
-	val applicationContext: ApplicationContext = runApplication<MarivannaApplication>(*args)
-	applicationContext.beanDefinitionNames.forEach { println(it) }
+	val context = runApplication<MarivannaApplication>(*args)
 
-// TODO: find out why doesn't the following code compile (or is it just IDEA?)
-//	val bot = applicationContext.getBean(Bot.class)
+	val environment = context.getBean(Environment::class.java)
+
+	logger.info { "Available at http://localhost:${environment.getProperty("local.server.port")?.toInt()}" }
 }

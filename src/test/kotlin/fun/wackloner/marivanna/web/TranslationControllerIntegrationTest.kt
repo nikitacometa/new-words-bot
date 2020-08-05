@@ -1,7 +1,9 @@
 package `fun`.wackloner.marivanna.web
 
+import `fun`.wackloner.marivanna.Translation
+import `fun`.wackloner.marivanna.commands.learning
+import `fun`.wackloner.marivanna.commands.native
 import `fun`.wackloner.marivanna.managers.TranslationRepository
-import `fun`.wackloner.marivanna.managers.Translation
 
 import org.bson.types.ObjectId
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -17,11 +19,10 @@ import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.test.context.junit.jupiter.SpringExtension
 
 
-// TODO: fix tests
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith(SpringExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class TaskControllerIntegrationTest
+class TranslationControllerIntegrationTest
 @Autowired constructor(
         private val translationRepository: TranslationRepository,
         private val restTemplate: TestRestTemplate
@@ -36,9 +37,9 @@ class TaskControllerIntegrationTest
         translationRepository.deleteAll()
     }
 
-    private fun getRootUrl(): String? = "http://localhost:$port/tasks"
+    private fun getRootUrl(): String? = "http://localhost:$port/translations"
 
-    private fun saveOneTask() = translationRepository.save(Translation("cat", "кошка", 420, translationId))
+    private fun saveOneTask() = translationRepository.save(Translation(learning("cat"), native("кошка"), 420, translationId))
 
     @Test
     fun `should return all translations`() {
