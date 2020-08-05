@@ -6,6 +6,7 @@ import `fun`.wackloner.marivanna.commands.native
 import `fun`.wackloner.marivanna.managers.TranslationRepository
 
 import org.bson.types.ObjectId
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.BeforeEach
@@ -13,12 +14,14 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestInstance
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.test.autoconfigure.data.mongo.AutoConfigureDataMongo
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.boot.test.web.client.TestRestTemplate
 import org.springframework.boot.web.server.LocalServerPort
 import org.springframework.test.context.junit.jupiter.SpringExtension
 
 
+@AutoConfigureDataMongo
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith(SpringExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -32,19 +35,20 @@ class TranslationControllerIntegrationTest
 
     private val translationId: ObjectId = ObjectId.get()
 
+    private fun getRootUrl(): String? = "http://localhost:$port/translations"
+
     @BeforeEach
+    fun saveOneTask() {
+        translationRepository.save(Translation(learning("cat"), native("кошка"), 420, translationId))
+    }
+
+    @AfterEach
     fun setUp() {
         translationRepository.deleteAll()
     }
 
-    private fun getRootUrl(): String? = "http://localhost:$port/translations"
-
-    private fun saveOneTask() = translationRepository.save(Translation(learning("cat"), native("кошка"), 420, translationId))
-
     @Test
     fun `should return all translations`() {
-        saveOneTask()
-
         val response = restTemplate.getForEntity(
                 getRootUrl(),
                 List::class.java
@@ -57,8 +61,6 @@ class TranslationControllerIntegrationTest
 
     @Test
     fun `should return single translation by id`() {
-        saveOneTask()
-
         val response = restTemplate.getForEntity(
                 getRootUrl() + "/$translationId",
                 Translation::class.java

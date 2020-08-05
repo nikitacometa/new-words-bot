@@ -33,6 +33,7 @@ dependencies {
 	implementation("com.google.cloud:google-cloud-translate:1.12.0")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo:2.2.0")
 
 	testImplementation("org.junit.jupiter:junit-jupiter-api:5.3.1")
 	testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.3.1")
