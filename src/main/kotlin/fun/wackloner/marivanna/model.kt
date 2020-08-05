@@ -7,7 +7,10 @@ import org.springframework.data.mongodb.core.mapping.Document
 
 class Emoji {
     companion object {
-        val PAPER: String = "\uD83D\uDCCB"
+        const val PAPER = "\uD83D\uDCCB"
+        const val SEND_KISS= "\uD83D\uDE18"
+        const val LOVE_FACE = "\uD83E\uDD70"
+        const val WINKING = "\uD83D\uDE09"
     }
 }
 
@@ -19,15 +22,15 @@ data class Phrase(
 
 @Document
 data class Translation(
-        val phrase: Phrase,
-        val translations: List<Phrase>,
         val userId: Int,
+        val phrase: String,
+        val lang: String,
+        val translations: Map<String, List<String>>,
         @Id val id: ObjectId = ObjectId.get(),
         val createdDate: LocalDateTime = LocalDateTime.now(),
         val modifiedDate: LocalDateTime = LocalDateTime.now()
 ) {
-    fun beautifulHtml(): String = "${Emoji.PAPER} <b>${phrase.text}</b>:\n" + translations.withIndex()
-                                                            .map { (i, t) -> "<i>${i + 1}) ${t.text}</i>" }
-                                                            .joinToString("\n")
+    fun beautifulHtml(): String = "${Emoji.PAPER} <b>${phrase}</b>:\n" +
+            translations.values.flatten().withIndex().joinToString("\n") { (i, t) -> "<i>${i + 1}) $t</i>" }
 
 }

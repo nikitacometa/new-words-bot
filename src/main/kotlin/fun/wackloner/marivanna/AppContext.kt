@@ -14,5 +14,10 @@ class AppContext {
 
         val translationRepository: TranslationRepository
             get() = ctx.getBean(TranslationRepository::class.java)
+
+        // TODO: make thread-safe
+        // TODO: per-user
+        var waitingForTranslation = false
+        var actionMessageId: Int? = null
     }
 }

@@ -39,7 +39,7 @@ class TranslationControllerIntegrationTest
 
     @BeforeEach
     fun saveOneTask() {
-        translationRepository.save(Translation(learning("cat"), native("кошка"), 420, translationId))
+        translationRepository.save(Translation(420, "cat", "en", native("кошка"), translationId))
     }
 
     @AfterEach

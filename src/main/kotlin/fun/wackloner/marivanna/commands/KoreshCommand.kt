@@ -9,7 +9,6 @@ import org.telegram.telegrambots.meta.bots.AbsSender
 
 abstract class KoreshCommand(private val name: String, private val helpString: String) : IBotCommand {
     companion object {
-        // TODO: separate logger for each command (?)
         val logger = KotlinLogging.logger {}
     }
 
