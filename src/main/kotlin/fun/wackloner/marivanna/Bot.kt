@@ -7,9 +7,11 @@ import org.springframework.stereotype.Component
 import org.telegram.telegrambots.ApiContextInitializer
 import org.telegram.telegrambots.extensions.bots.commandbot.TelegramLongPollingCommandBot
 import org.telegram.telegrambots.meta.TelegramBotsApi
+import org.telegram.telegrambots.meta.api.methods.ParseMode
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage
 import org.telegram.telegrambots.meta.api.objects.Message
 import org.telegram.telegrambots.meta.api.objects.Update
+import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException
 import javax.annotation.PostConstruct
 
@@ -42,10 +44,26 @@ class Bot(
         registerAll(*commands.values.toTypedArray())
     }
 
-    fun sendText(chatId: Long, text: String): Message = this.execute(SendMessage().setText(text).setChatId(chatId))
+    fun sendText(
+            chatId: Long,
+            text: String,
+            keyboardMarkup: InlineKeyboardMarkup? = null,
+            parseMode: String? = ParseMode.HTML
+    ): Message {
+        return execute(SendMessage()
+                .setText(text)
+                .setChatId(chatId)
+                .setReplyMarkup(keyboardMarkup)
+                .setParseMode(parseMode)
+        )
+    }
 
     override fun processNonCommandUpdate(update: Update) {
+        logger.info { update }
+        logger.info { update.message.text }
+
         sendText(update.message.chatId, "oh hi mark")
+        sendText(update.message.chatId, Emoji.PAPER)
     }
 
     override fun getBotUsername(): String = Settings.BOT_USERNAME

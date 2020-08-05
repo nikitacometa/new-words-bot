@@ -9,7 +9,8 @@ import org.telegram.telegrambots.meta.bots.AbsSender
 
 abstract class KoreshCommand(private val name: String, private val helpString: String) : IBotCommand {
     companion object {
-        protected val logger = KotlinLogging.logger {}
+        // TODO: separate logger for each command (?)
+        val logger = KotlinLogging.logger {}
     }
 
     abstract fun process(bot: Bot, message: Message, arguments: Array<String>)
@@ -18,5 +19,9 @@ abstract class KoreshCommand(private val name: String, private val helpString: S
 
     override fun getDescription(): String = helpString
 
-    override fun processMessage(absSender: AbsSender, message: Message, args: Array<String>) = process(absSender as Bot, message, args)
+    override fun processMessage(absSender: AbsSender, message: Message, args: Array<String>) {
+        logger.info { message }
+
+        return process(absSender as Bot, message, args)
+    }
 }
