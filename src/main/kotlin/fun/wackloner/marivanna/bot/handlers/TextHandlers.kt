@@ -2,14 +2,14 @@ package `fun`.wackloner.marivanna.bot.handlers
 
 import `fun`.wackloner.marivanna.bot.Context
 import `fun`.wackloner.marivanna.bot.Settings
-import `fun`.wackloner.marivanna.bot.commands.processNewTranslation
+import `fun`.wackloner.marivanna.bot.commands.processNewTranslations
 import `fun`.wackloner.marivanna.utils.saveKeyboard
 import `fun`.wackloner.marivanna.utils.formatSingleTranslation
 import org.telegram.telegrambots.meta.api.objects.Message
 
 fun tryProcessCommandData(message: Message): Boolean {
     if (Context.waitingForTranslation) {
-        processNewTranslation(message.text, message.from.id, message.chatId)
+        processNewTranslations(message.text, message.from.id, message.chatId)
         Context.waitingForTranslation = false
         return true
     }

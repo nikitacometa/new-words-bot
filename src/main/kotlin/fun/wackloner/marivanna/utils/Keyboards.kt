@@ -14,7 +14,7 @@ fun keyboardOf(vararg buttonRows: List<InlineKeyboardButton>): InlineKeyboardMar
 fun mainMenuKeyboard(): InlineKeyboardMarkup = keyboardOf(
         listOf(
                 newButton("Translate", "?translate"),
-                newButton("Add translation", "?addTranslation")
+                newButton("Add translations", "?addTranslation")
         ),
         listOf(
                 newButton("Quiz", "?quiz"),
@@ -36,10 +36,20 @@ fun afterSaveKeyboard(): InlineKeyboardMarkup = keyboardOf(
         )
 )
 
+fun afterAddKeyboard(): InlineKeyboardMarkup = keyboardOf(
+        listOf(
+                newButton("Add more", "?addTranslation"),
+                newButton("Dictionary", "?dictionary")
+        ),
+        listOf(
+                newButton("Menu", "?menu")
+        )
+)
+
 fun afterDictionaryKeyboard(): InlineKeyboardMarkup = keyboardOf(
         listOf(
                 newButton("Translate", "?translate"),
-                newButton("Add translation", "?addTranslation")
+                newButton("Add translations", "?addTranslation")
         ),
         listOf(
                 newButton("Quiz", "?quiz"),

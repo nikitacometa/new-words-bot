@@ -1,5 +1,6 @@
 package `fun`.wackloner.marivanna.bot
 
+import `fun`.wackloner.marivanna.managers.TranslationManager
 import `fun`.wackloner.marivanna.model.Translation
 import `fun`.wackloner.marivanna.repositories.TranslationRepository
 import `fun`.wackloner.marivanna.services.TranslationService
@@ -13,6 +14,9 @@ class Context {
 
         val bot: Bot
             get() = appContext.getBean(Bot::class.java)
+
+        val translationManager: TranslationManager
+            get() = appContext.getBean(TranslationManager::class.java)
 
         val translationRepository: TranslationRepository
             get() = appContext.getBean(TranslationRepository::class.java)

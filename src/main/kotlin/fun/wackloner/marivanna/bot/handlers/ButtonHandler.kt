@@ -4,6 +4,8 @@ import `fun`.wackloner.marivanna.bot.Context
 import `fun`.wackloner.marivanna.model.Emoji
 import `fun`.wackloner.marivanna.bot.Settings
 import `fun`.wackloner.marivanna.bot.commands.*
+import `fun`.wackloner.marivanna.bot.promptTranslate
+import `fun`.wackloner.marivanna.bot.promptTranslation
 import `fun`.wackloner.marivanna.model.UserTranslation
 import `fun`.wackloner.marivanna.utils.afterSaveKeyboard
 import `fun`.wackloner.marivanna.utils.formatSingleTranslation
