@@ -2,22 +2,25 @@ package `fun`.wackloner.marivanna.bot.commands
 
 import `fun`.wackloner.marivanna.bot.Context
 import `fun`.wackloner.marivanna.bot.Bot
-import `fun`.wackloner.marivanna.logger
+import `fun`.wackloner.marivanna.bot.resetInputRequests
 import `fun`.wackloner.marivanna.utils.afterDictionaryKeyboard
+import `fun`.wackloner.marivanna.utils.emptyDictionaryKeyboard
 import org.springframework.stereotype.Component
 import org.telegram.telegrambots.meta.api.objects.Message
 
+// TODO: add button to remove entry: for showing items buttons 'whole|1|2'
+
+// TODO: buttons to change sorting
+// TODO: buttons for pages
 fun showDictionary(userId: Int, chatId: Long) {
-    logger.info { userId }
+    // TODO: refactor to use decorators
+    resetInputRequests()
 
     val translations = Context.translationRepository.findByUserId(userId)
-    val replyText = if (translations.isEmpty())
-    // TODO: offer to add a new one
-        "Dictionary is empty."
+    if (translations.isEmpty())
+        Context.bot.sendUpdate(chatId, "Your dictionary is empty( Let's fill it?", emptyDictionaryKeyboard())
     else
-        translations.joinToString("\n\n") { it.beautifulHtml() }
-
-    Context.bot.sendUpdate(chatId, replyText, afterDictionaryKeyboard())
+        Context.bot.sendUpdate(chatId, translations.joinToString("\n\n") { it.beautifulHtml() }, afterDictionaryKeyboard())
 }
 
 @Component

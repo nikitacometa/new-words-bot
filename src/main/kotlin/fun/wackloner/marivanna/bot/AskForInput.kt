@@ -17,3 +17,8 @@ fun promptTranslate(chatId: Long) {
             "Hey, sexy, I'll translate everything for you${Emoji.WINKING}\n\n<i>Enter a word/phrase:</i>", menuKeyboard())
     Context.waitingForTranslate = true
 }
+
+fun resetInputRequests() {
+    Context.waitingForTranslation = false
+    Context.waitingForTranslate = false
+}

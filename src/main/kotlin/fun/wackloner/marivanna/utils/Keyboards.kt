@@ -36,6 +36,16 @@ fun afterSaveKeyboard(): InlineKeyboardMarkup = keyboardOf(
         )
 )
 
+fun emptyDictionaryKeyboard(): InlineKeyboardMarkup = keyboardOf(
+        listOf(
+                newButton("Translate", "?translate"),
+                newButton("Just add", "?addTranslation")
+        ),
+        listOf(
+                newButton("Menu", "?menu")
+        )
+)
+
 fun afterAddKeyboard(): InlineKeyboardMarkup = keyboardOf(
         listOf(
                 newButton("Add more", "?addTranslation"),
@@ -69,5 +79,10 @@ fun menuKeyboard(): InlineKeyboardMarkup = oneLineKeyboard(
 fun saveKeyboard(): InlineKeyboardMarkup = oneLineKeyboard(
         newButton("Save", "?save"),
         newButton("Again", "?translate"),
+        newButton("Menu", "?menu")
+)
+
+fun retryKeyboard(): InlineKeyboardMarkup = oneLineKeyboard(
+        newButton("Retry", "?retryAdd"),
         newButton("Menu", "?menu")
 )

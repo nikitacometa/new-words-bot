@@ -1,11 +1,8 @@
 package `fun`.wackloner.marivanna.bot.handlers
 
-import `fun`.wackloner.marivanna.bot.Context
+import `fun`.wackloner.marivanna.bot.*
 import `fun`.wackloner.marivanna.model.Emoji
-import `fun`.wackloner.marivanna.bot.Settings
 import `fun`.wackloner.marivanna.bot.commands.*
-import `fun`.wackloner.marivanna.bot.promptTranslate
-import `fun`.wackloner.marivanna.bot.promptTranslation
 import `fun`.wackloner.marivanna.model.UserTranslation
 import `fun`.wackloner.marivanna.utils.afterSaveKeyboard
 import `fun`.wackloner.marivanna.utils.formatSingleTranslation
@@ -14,13 +11,7 @@ import `fun`.wackloner.marivanna.utils.saveKeyboard
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery
 
 fun processMenu(chatId: Long) {
-    // TODO: also set them false on other commands
-    if (Context.waitingForTranslation) {
-        Context.waitingForTranslation = false
-    }
-    if (Context.waitingForTranslate) {
-        Context.waitingForTranslate = false
-    }
+    resetInputRequests()
 
     Context.bot.sendUpdate(chatId, "I will do whatever you want${Emoji.LOVE_FACE} (not really)", mainMenuKeyboard())
 }
