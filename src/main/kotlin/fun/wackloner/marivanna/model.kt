@@ -1,9 +1,11 @@
 package `fun`.wackloner.marivanna
 
+import `fun`.wackloner.marivanna.utils.formatSingleTranslation
 import org.bson.types.ObjectId
 import org.joda.time.LocalDateTime
 import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
+import java.lang.RuntimeException
 
 class Emoji {
     companion object {
@@ -20,7 +22,7 @@ data class Phrase(
         val lang: String
 )
 
-data class Translation(val phrase: String, val translations: List<String>, val sourceLang: String, val destLang: String)
+data class Translation(val phrase: String, val translated: String, val sourceLang: String, val destLang: String)
 
 @Document
 data class UserTranslation(
@@ -32,7 +34,14 @@ data class UserTranslation(
         val createdDate: LocalDateTime = LocalDateTime.now(),
         val modifiedDate: LocalDateTime = LocalDateTime.now()
 ) {
-    fun beautifulHtml(): String = "${Emoji.PAPER} <b>${phrase}</b>:\n" +
-            translations.values.flatten().withIndex().joinToString("\n") { (i, t) -> "<i>${i + 1}) $t</i>" }
+    fun beautifulHtml(): String {
+        val allLangsTranslations = translations.values.flatten()
+        return when(allLangsTranslations.size) {
+            0 -> throw RuntimeException("Phrase without translations WTF? $this")
+            1 -> formatSingleTranslation(phrase, allLangsTranslations[0])
+            else -> "${Emoji.PAPER} <b>${phrase}</b>:\n" +
+                    allLangsTranslations.withIndex().joinToString("\n") { (i, t) -> "<i>${i + 1}) $t</i>" }
+        }
+    }
 
 }

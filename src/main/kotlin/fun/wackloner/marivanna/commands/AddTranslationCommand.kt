@@ -52,16 +52,21 @@ fun addTranslation(text: String, userId: Int): UserTranslation? {
 
 fun processNewTranslation(text: String, userId: Int, chatId: Long) {
     val newTranslation = addTranslation(text, userId)
-    val replyText = newTranslation?.beautifulHtml() ?: "Failed to add, but who cares..."
+    if (newTranslation == null) {
+        // TODO: 'try again?'
+        AppContext.bot.sendUpdate(chatId, "I failed to add <i>'$text</i>...", mainMenuKeyboard())
+        return
+    }
 
-    AppContext.bot.sendUpdate(chatId, replyText, mainMenuKeyboard())
+    AppContext.bot.sendUpdate(chatId,
+            "Wow, you're so smart${Emoji.WINKING}\n\n${newTranslation.beautifulHtml()}", mainMenuKeyboard())
 }
 
 fun promptTranslation(userId: Int, chatId: Long) {
     AppContext.bot.sendUpdate(
             chatId,
             "Send me a new translation, Darling ${Emoji.SEND_KISS}\nFor example:\n\n<i>This bot is sooo cool — этот бот таак хорош; это бот быть тааак круто</i>",
-            cancelKeyboard()
+            menuKeyboard()
     )
     AppContext.waitingForTranslation = true
 }

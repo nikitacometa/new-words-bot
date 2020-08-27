@@ -16,7 +16,7 @@ class StartCommand : KoreshCommand("start", "greet") {
         try {
             val reply = bot.sendText(
                     message.chatId,
-                    "Boys who learn languages are turning me on${Emoji.WINKING}${Emoji.WINKING}",
+                    "Guys who learn languages are turning me on${Emoji.WINKING}${Emoji.WINKING}",
                     mainMenuKeyboard()
             )
             AppContext.actionMessageId = reply.messageId

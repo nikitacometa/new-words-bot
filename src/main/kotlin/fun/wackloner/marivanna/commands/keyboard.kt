@@ -1,6 +1,5 @@
 package `fun`.wackloner.marivanna.commands
 
-import `fun`.wackloner.marivanna.Translation
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton
 
@@ -24,23 +23,17 @@ fun mainMenuKeyboard(dictionaryButton: Boolean = true): InlineKeyboardMarkup {
     return InlineKeyboardMarkup().setKeyboard(buttonRows)
 }
 
-fun cancelKeyboard(): InlineKeyboardMarkup {
-    val buttonRows = mutableListOf(
-            listOf(
-                    newButton("Dictionary", "?dictionary"),
-                    newButton("Cancel", "?cancel")
-            )
-    )
-    return InlineKeyboardMarkup().setKeyboard(buttonRows)
-}
+fun oneLineKeyboard(vararg buttons: InlineKeyboardButton): InlineKeyboardMarkup = InlineKeyboardMarkup().setKeyboard(listOf(buttons.toList()))
 
-fun translateKeyboard(translation: Translation): InlineKeyboardMarkup {
-    val saveButtons = translation.translations
-            .mapIndexed { i, text -> listOf(newButton("$i) $text", "$i"))}
-            .toMutableList()
-    saveButtons.add(listOf(
-            newButton("Dictionary", "?dictionary"),
-            newButton("Cancel", "?cancel")
-    ))
-    return InlineKeyboardMarkup().setKeyboard(saveButtons)
-}
+
+// TODO: rename
+fun menuKeyboard(): InlineKeyboardMarkup = oneLineKeyboard(
+        newButton("Dictionary", "?dictionary"),
+        newButton("Menu", "?menu")
+)
+
+fun saveKeyboard(): InlineKeyboardMarkup = oneLineKeyboard(
+        newButton("Save", "?save"),
+        newButton("Again", "?translate"),
+        newButton("Menu", "?menu")
+)

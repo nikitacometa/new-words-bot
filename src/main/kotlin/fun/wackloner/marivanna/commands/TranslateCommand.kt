@@ -2,19 +2,15 @@ package `fun`.wackloner.marivanna.commands
 
 import `fun`.wackloner.marivanna.AppContext
 import `fun`.wackloner.marivanna.Bot
-import `fun`.wackloner.marivanna.Settings
+import `fun`.wackloner.marivanna.Emoji
 import org.springframework.stereotype.Component
 import org.telegram.telegrambots.meta.api.objects.Message
 
 
-fun processTranslate(text: String, chatId: Long) {
-    val translation = AppContext.translationService.translate(text, Settings.NATIVE_LANGUAGE)
-    AppContext.lastTranslation = translation
-    AppContext.bot.sendUpdate(chatId, "<b>$text:</b>", translateKeyboard(translation))
-}
-
+// TODO: promts to separate file
 fun promptTranslate(userId: Int, chatId: Long) {
-    AppContext.bot.sendUpdate(chatId, "Hey, sexy boy, what to translate? ;)", cancelKeyboard())
+    AppContext.bot.sendUpdate(chatId,
+            "Hey, sexy, I'll translate everything for you${Emoji.WINKING}\n\n<i>Enter a word/phrase:</i>", menuKeyboard())
     AppContext.waitingForTranslate = true
 }
 
