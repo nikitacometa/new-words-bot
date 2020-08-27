@@ -2,9 +2,9 @@ package `fun`.wackloner.marivanna.bot
 
 import `fun`.wackloner.marivanna.model.Emoji
 import `fun`.wackloner.marivanna.bot.commands.KoreshCommand
-import `fun`.wackloner.marivanna.bot.commands.mainMenuKeyboard
-import `fun`.wackloner.marivanna.bot.commands.processCallbackQuery
-import `fun`.wackloner.marivanna.bot.commands.tryProcessCommandData
+import `fun`.wackloner.marivanna.utils.mainMenuKeyboard
+import `fun`.wackloner.marivanna.bot.handlers.processCallbackQuery
+import `fun`.wackloner.marivanna.bot.handlers.tryProcessCommandData
 import mu.KotlinLogging
 import org.springframework.context.ApplicationContext
 import org.springframework.stereotype.Component
@@ -23,7 +23,7 @@ import javax.annotation.PostConstruct
 
 @Component
 class Bot(
-        private val applicationContext: ApplicationContext
+        val applicationContext: ApplicationContext
 ) : TelegramLongPollingCommandBot() {
 
     companion object {

@@ -1,4 +1,4 @@
-package `fun`.wackloner.marivanna.managers
+package `fun`.wackloner.marivanna.repositories
 
 import `fun`.wackloner.marivanna.model.UserTranslation
 import org.bson.types.ObjectId

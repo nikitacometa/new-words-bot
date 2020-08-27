@@ -16,12 +16,6 @@ class Emoji {
     }
 }
 
-data class Phrase(
-        val text: String,
-        // TODO: use enum or something
-        val lang: String
-)
-
 data class Translation(val phrase: String, val translated: String, val sourceLang: String, val destLang: String)
 
 @Document

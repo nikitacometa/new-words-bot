@@ -4,8 +4,9 @@ import `fun`.wackloner.marivanna.bot.Context
 import `fun`.wackloner.marivanna.bot.Bot
 import `fun`.wackloner.marivanna.bot.Settings
 import `fun`.wackloner.marivanna.model.Emoji
-import `fun`.wackloner.marivanna.model.Phrase
 import `fun`.wackloner.marivanna.model.UserTranslation
+import `fun`.wackloner.marivanna.utils.mainMenuKeyboard
+import `fun`.wackloner.marivanna.utils.menuKeyboard
 
 import org.springframework.stereotype.Component
 import org.telegram.telegrambots.meta.api.objects.Message
@@ -14,10 +15,8 @@ import org.telegram.telegrambots.meta.api.objects.Message
  * TODO: implement TranslationManager
  */
 
-fun learning(text: String): Phrase = Phrase(text, Settings.LEARNING_LANGUAGE)
-
 fun native(vararg texts: String): Map<String, List<String>> =
-        mutableMapOf(Pair(Settings.NATIVE_LANGUAGE, texts.toList().map { it.trim() }))
+        mutableMapOf(Settings.NATIVE_LANGUAGE to texts.toList().map { it.trim() })
 
 data class SplitResult(val phrase: String?, val options: String?) {
     companion object {

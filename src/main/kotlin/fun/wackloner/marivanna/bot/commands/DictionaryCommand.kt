@@ -3,6 +3,7 @@ package `fun`.wackloner.marivanna.bot.commands
 import `fun`.wackloner.marivanna.bot.Context
 import `fun`.wackloner.marivanna.bot.Bot
 import `fun`.wackloner.marivanna.logger
+import `fun`.wackloner.marivanna.utils.afterDictionaryKeyboard
 import org.springframework.stereotype.Component
 import org.telegram.telegrambots.meta.api.objects.Message
 
@@ -16,7 +17,7 @@ fun showDictionary(userId: Int, chatId: Long) {
     else
         translations.joinToString("\n\n") { it.beautifulHtml() }
 
-    Context.bot.sendUpdate(chatId, replyText, mainMenuKeyboard(false))
+    Context.bot.sendUpdate(chatId, replyText, afterDictionaryKeyboard())
 }
 
 @Component

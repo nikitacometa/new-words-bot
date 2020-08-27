@@ -2,7 +2,7 @@ package `fun`.wackloner.marivanna.web
 
 import `fun`.wackloner.marivanna.model.UserTranslation
 import `fun`.wackloner.marivanna.bot.commands.native
-import `fun`.wackloner.marivanna.managers.TranslationRepository
+import `fun`.wackloner.marivanna.repositories.TranslationRepository
 
 import org.bson.types.ObjectId
 import org.junit.jupiter.api.AfterEach
