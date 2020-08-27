@@ -1,4 +1,4 @@
-package `fun`.wackloner.marivanna
+package `fun`.wackloner.marivanna.bot
 
 import java.util.*
 

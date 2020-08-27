@@ -1,8 +1,10 @@
-package `fun`.wackloner.marivanna
+package `fun`.wackloner.marivanna.bot
 
-import `fun`.wackloner.marivanna.commands.KoreshCommand
-import `fun`.wackloner.marivanna.commands.processCallbackQuery
-import `fun`.wackloner.marivanna.commands.tryProcessCommandData
+import `fun`.wackloner.marivanna.model.Emoji
+import `fun`.wackloner.marivanna.bot.commands.KoreshCommand
+import `fun`.wackloner.marivanna.bot.commands.mainMenuKeyboard
+import `fun`.wackloner.marivanna.bot.commands.processCallbackQuery
+import `fun`.wackloner.marivanna.bot.commands.tryProcessCommandData
 import mu.KotlinLogging
 import org.springframework.context.ApplicationContext
 import org.springframework.stereotype.Component
@@ -67,11 +69,11 @@ class Bot(
             keyboardMarkup: InlineKeyboardMarkup? = null,
             parseMode: String? = ParseMode.HTML
     ): Message? {
-        if (AppContext.actionMessageId == null)
+        if (Context.actionMessageId == null)
             return null
 
         val res = execute(EditMessageText()
-                .setMessageId(AppContext.actionMessageId)
+                .setMessageId(Context.actionMessageId)
                 .setText(text)
                 .setChatId(chatId)
                 .setReplyMarkup(keyboardMarkup)
@@ -89,7 +91,7 @@ class Bot(
         val previousMessage = editLastMessage(chatId, text, keyboardMarkup, parseMode)
         if (previousMessage == null) {
             val newMessage = sendText(chatId, text, keyboardMarkup, parseMode)
-            AppContext.actionMessageId = newMessage.messageId
+            Context.actionMessageId = newMessage.messageId
             return newMessage
         }
         return previousMessage
@@ -103,13 +105,14 @@ class Bot(
             return
         }
 
-        AppContext.actionMessageId = null
+        Context.actionMessageId = null
 
         if (tryProcessCommandData(update.message)) {
             return
         }
 
-        sendText(update.message.chatId, "oh hi mark")
+        sendText(update.message.chatId,
+                "Sorry, I don't understand... What do you want me to do?${Emoji.WINKING}", mainMenuKeyboard())
     }
 
     override fun getBotUsername(): String = Settings.BOT_USERNAME

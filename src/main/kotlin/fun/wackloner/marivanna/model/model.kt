@@ -1,4 +1,4 @@
-package `fun`.wackloner.marivanna
+package `fun`.wackloner.marivanna.model
 
 import `fun`.wackloner.marivanna.utils.formatSingleTranslation
 import org.bson.types.ObjectId

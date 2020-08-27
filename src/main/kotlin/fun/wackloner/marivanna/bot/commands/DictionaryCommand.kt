@@ -1,7 +1,7 @@
-package `fun`.wackloner.marivanna.commands
+package `fun`.wackloner.marivanna.bot.commands
 
-import `fun`.wackloner.marivanna.AppContext
-import `fun`.wackloner.marivanna.Bot
+import `fun`.wackloner.marivanna.bot.Context
+import `fun`.wackloner.marivanna.bot.Bot
 import `fun`.wackloner.marivanna.logger
 import org.springframework.stereotype.Component
 import org.telegram.telegrambots.meta.api.objects.Message
@@ -9,14 +9,14 @@ import org.telegram.telegrambots.meta.api.objects.Message
 fun showDictionary(userId: Int, chatId: Long) {
     logger.info { userId }
 
-    val translations = AppContext.translationRepository.findByUserId(userId)
+    val translations = Context.translationRepository.findByUserId(userId)
     val replyText = if (translations.isEmpty())
     // TODO: offer to add a new one
         "Dictionary is empty."
     else
         translations.joinToString("\n\n") { it.beautifulHtml() }
 
-    AppContext.bot.sendUpdate(chatId, replyText, mainMenuKeyboard(false))
+    Context.bot.sendUpdate(chatId, replyText, mainMenuKeyboard(false))
 }
 
 @Component

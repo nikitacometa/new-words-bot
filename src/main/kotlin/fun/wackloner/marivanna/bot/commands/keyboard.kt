@@ -1,4 +1,4 @@
-package `fun`.wackloner.marivanna.commands
+package `fun`.wackloner.marivanna.bot.commands
 
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton
@@ -15,11 +15,24 @@ fun mainMenuKeyboard(dictionaryButton: Boolean = true): InlineKeyboardMarkup {
             ),
             listOf(
                     newButton("Quiz", "?quiz"),
-                    newButton("Schedule tests", "?schedule")
+                    newButton("Remind me", "?remind")
             )
     )
     if (dictionaryButton)
         buttonRows.add(listOf(newButton("Dictionary", "?dictionary")))
+    return InlineKeyboardMarkup().setKeyboard(buttonRows)
+}
+
+fun afterSaveKeyboard(): InlineKeyboardMarkup {
+    val buttonRows = mutableListOf(
+            listOf(
+                    newButton("Translate", "?translate"),
+                    newButton("Dictionary", "?dictionary")
+            ),
+            listOf(
+                    newButton("Menu", "?menu")
+            )
+    )
     return InlineKeyboardMarkup().setKeyboard(buttonRows)
 }
 

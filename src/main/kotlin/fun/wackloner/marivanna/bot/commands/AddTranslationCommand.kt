@@ -1,6 +1,11 @@
-package `fun`.wackloner.marivanna.commands
+package `fun`.wackloner.marivanna.bot.commands
 
-import `fun`.wackloner.marivanna.*
+import `fun`.wackloner.marivanna.bot.Context
+import `fun`.wackloner.marivanna.bot.Bot
+import `fun`.wackloner.marivanna.bot.Settings
+import `fun`.wackloner.marivanna.model.Emoji
+import `fun`.wackloner.marivanna.model.Phrase
+import `fun`.wackloner.marivanna.model.UserTranslation
 
 import org.springframework.stereotype.Component
 import org.telegram.telegrambots.meta.api.objects.Message
@@ -47,28 +52,28 @@ fun addTranslation(text: String, userId: Int): UserTranslation? {
 
     // TODO: update if exists
     // TODO: filter duplicates
-    return AppContext.translationRepository.save(UserTranslation(userId, phrase, Settings.NATIVE_LANGUAGE, newTranslations))
+    return Context.translationRepository.save(UserTranslation(userId, phrase, Settings.NATIVE_LANGUAGE, newTranslations))
 }
 
 fun processNewTranslation(text: String, userId: Int, chatId: Long) {
     val newTranslation = addTranslation(text, userId)
     if (newTranslation == null) {
         // TODO: 'try again?'
-        AppContext.bot.sendUpdate(chatId, "I failed to add <i>'$text</i>...", mainMenuKeyboard())
+        Context.bot.sendUpdate(chatId, "I failed to add <i>'$text</i>...", mainMenuKeyboard())
         return
     }
 
-    AppContext.bot.sendUpdate(chatId,
+    Context.bot.sendUpdate(chatId,
             "Wow, you're so smart${Emoji.WINKING}\n\n${newTranslation.beautifulHtml()}", mainMenuKeyboard())
 }
 
-fun promptTranslation(userId: Int, chatId: Long) {
-    AppContext.bot.sendUpdate(
+fun promptTranslation(chatId: Long) {
+    Context.bot.sendUpdate(
             chatId,
             "Send me a new translation, Darling ${Emoji.SEND_KISS}\nFor example:\n\n<i>This bot is sooo cool — этот бот таак хорош; это бот быть тааак круто</i>",
             menuKeyboard()
     )
-    AppContext.waitingForTranslation = true
+    Context.waitingForTranslation = true
 }
 
 @Component

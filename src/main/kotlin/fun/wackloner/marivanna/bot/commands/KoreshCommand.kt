@@ -1,6 +1,6 @@
-package `fun`.wackloner.marivanna.commands
+package `fun`.wackloner.marivanna.bot.commands
 
-import `fun`.wackloner.marivanna.Bot
+import `fun`.wackloner.marivanna.bot.Bot
 import mu.KotlinLogging
 import org.telegram.telegrambots.extensions.bots.commandbot.commands.IBotCommand
 import org.telegram.telegrambots.meta.api.objects.Message

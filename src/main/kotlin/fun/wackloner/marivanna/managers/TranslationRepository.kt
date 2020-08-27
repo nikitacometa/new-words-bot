@@ -1,6 +1,6 @@
 package `fun`.wackloner.marivanna.managers
 
-import `fun`.wackloner.marivanna.UserTranslation
+import `fun`.wackloner.marivanna.model.UserTranslation
 import org.bson.types.ObjectId
 import org.springframework.data.mongodb.repository.MongoRepository
 

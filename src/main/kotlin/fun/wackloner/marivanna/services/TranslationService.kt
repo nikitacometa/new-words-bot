@@ -1,7 +1,7 @@
 package `fun`.wackloner.marivanna.services
 
-import `fun`.wackloner.marivanna.Settings
-import `fun`.wackloner.marivanna.Translation
+import `fun`.wackloner.marivanna.bot.Settings
+import `fun`.wackloner.marivanna.model.Translation
 import com.google.cloud.translate.Translate
 import com.google.cloud.translate.TranslateOptions
 import org.springframework.stereotype.Service

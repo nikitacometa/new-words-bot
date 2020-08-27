@@ -1,7 +1,7 @@
 package `fun`.wackloner.marivanna.web
 
-import `fun`.wackloner.marivanna.UserTranslation
-import `fun`.wackloner.marivanna.commands.native
+import `fun`.wackloner.marivanna.model.UserTranslation
+import `fun`.wackloner.marivanna.bot.commands.native
 import `fun`.wackloner.marivanna.managers.TranslationRepository
 
 import org.bson.types.ObjectId

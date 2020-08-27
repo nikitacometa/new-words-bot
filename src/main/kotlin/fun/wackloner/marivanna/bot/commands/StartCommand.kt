@@ -1,11 +1,10 @@
-package `fun`.wackloner.marivanna.commands
+package `fun`.wackloner.marivanna.bot.commands
 
-import `fun`.wackloner.marivanna.AppContext
-import `fun`.wackloner.marivanna.Bot
-import `fun`.wackloner.marivanna.Emoji
+import `fun`.wackloner.marivanna.bot.Context
+import `fun`.wackloner.marivanna.bot.Bot
+import `fun`.wackloner.marivanna.model.Emoji
 import org.springframework.stereotype.Component
 import org.telegram.telegrambots.meta.api.objects.Message
-import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException
 
 // TODO: add settings button
@@ -19,7 +18,7 @@ class StartCommand : KoreshCommand("start", "greet") {
                     "Guys who learn languages are turning me on${Emoji.WINKING}${Emoji.WINKING}",
                     mainMenuKeyboard()
             )
-            AppContext.actionMessageId = reply.messageId
+            Context.actionMessageId = reply.messageId
         } catch (exception: TelegramApiException) {
             logger.error { exception }
             // TODO: retry (make a method-wrapper for it)

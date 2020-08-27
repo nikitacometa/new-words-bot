@@ -1,6 +1,6 @@
 package `fun`.wackloner.marivanna.web
 
-import `fun`.wackloner.marivanna.UserTranslation
+import `fun`.wackloner.marivanna.model.UserTranslation
 import `fun`.wackloner.marivanna.managers.TranslationRepository
 import org.bson.types.ObjectId
 import org.springframework.http.ResponseEntity

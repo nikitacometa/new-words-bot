@@ -1,23 +1,24 @@
-package `fun`.wackloner.marivanna
+package `fun`.wackloner.marivanna.bot
 
+import `fun`.wackloner.marivanna.model.Translation
 import `fun`.wackloner.marivanna.managers.TranslationRepository
 import `fun`.wackloner.marivanna.services.TranslationService
 import org.springframework.context.ApplicationContext
 import org.springframework.stereotype.Component
 
 @Component
-class AppContext {
+class Context {
     companion object {
-        lateinit var ctx: ApplicationContext
+        lateinit var appContext: ApplicationContext
 
         val bot: Bot
-            get() = ctx.getBean(Bot::class.java)
+            get() = appContext.getBean(Bot::class.java)
 
         val translationRepository: TranslationRepository
-            get() = ctx.getBean(TranslationRepository::class.java)
+            get() = appContext.getBean(TranslationRepository::class.java)
 
         val translationService: TranslationService
-            get() = ctx.getBean(TranslationService::class.java)
+            get() = appContext.getBean(TranslationService::class.java)
 
         // TODO: make thread-safe
         // TODO: per-user

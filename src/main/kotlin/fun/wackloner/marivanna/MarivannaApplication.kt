@@ -1,5 +1,7 @@
 package `fun`.wackloner.marivanna
 
+import `fun`.wackloner.marivanna.bot.Context
+import `fun`.wackloner.marivanna.bot.Settings
 import mu.KotlinLogging
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
@@ -19,11 +21,11 @@ class MarivannaApplication : SpringBootServletInitializer() {
 }
 
 fun main(args: Array<String>) {
-	val context = runApplication<MarivannaApplication>(*args)
+	val appContext = runApplication<MarivannaApplication>(*args)
 
-	AppContext.ctx = context
+	Context.appContext = appContext
 
-	val environment = context.getBean(Environment::class.java)
+	val environment = appContext.getBean(Environment::class.java)
 
 	logger.info { "Available at http://localhost:${environment.getProperty("local.server.port")?.toInt()}" }
 }
