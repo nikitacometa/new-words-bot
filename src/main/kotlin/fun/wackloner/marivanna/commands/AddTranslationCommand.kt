@@ -36,7 +36,7 @@ fun splitTranslationText(text: String): SplitResult {
     return SplitResult(phrase, options)
 }
 
-fun addTranslation(text: String, userId: Int): Translation? {
+fun addTranslation(text: String, userId: Int): UserTranslation? {
     val (phrase, options) = splitTranslationText(text)
     if (phrase.isNullOrBlank() || options.isNullOrBlank())
         return null
@@ -47,7 +47,7 @@ fun addTranslation(text: String, userId: Int): Translation? {
 
     // TODO: update if exists
     // TODO: filter duplicates
-    return AppContext.translationRepository.save(Translation(userId, phrase, Settings.NATIVE_LANGUAGE, newTranslations))
+    return AppContext.translationRepository.save(UserTranslation(userId, phrase, Settings.NATIVE_LANGUAGE, newTranslations))
 }
 
 fun processNewTranslation(text: String, userId: Int, chatId: Long) {

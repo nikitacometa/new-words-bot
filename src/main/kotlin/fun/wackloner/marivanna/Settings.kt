@@ -14,7 +14,8 @@ object Settings {
     val API_TOKEN: String = properties.getProperty("bot.api_token")
     val BOT_USERNAME: String = properties.getProperty("bot.username")
 
+    const val MAX_TEXT_LENGTH: Int = 1000
     // TODO: set
-    val LEARNING_LANGUAGE = "en"
-    val NATIVE_LANGUAGE = "ru"
+    const val LEARNING_LANGUAGE: String = "en"
+    const val NATIVE_LANGUAGE: String = "ru"
 }

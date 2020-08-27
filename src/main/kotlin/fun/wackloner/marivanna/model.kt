@@ -20,8 +20,10 @@ data class Phrase(
         val lang: String
 )
 
+data class Translation(val phrase: String, val translations: List<String>, val sourceLang: String, val destLang: String)
+
 @Document
-data class Translation(
+data class UserTranslation(
         val userId: Int,
         val phrase: String,
         val lang: String,
