@@ -18,7 +18,7 @@ fun showDictionary(userId: Int, chatId: Long) {
 
     val translations = Context.translationRepository.findByUserId(userId)
     if (translations.isEmpty())
-        Context.bot.sendUpdate(chatId, "Your dictionary is empty( Let's fill it?", emptyDictionaryKeyboard())
+        Context.bot.sendUpdate(chatId, "Your dictionary is empty(\nLet's fill it?", emptyDictionaryKeyboard())
     else
         Context.bot.sendUpdate(chatId, translations.joinToString("\n\n") { it.beautifulHtml() }, afterDictionaryKeyboard())
 }

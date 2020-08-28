@@ -1,6 +1,6 @@
 package `fun`.wackloner.marivanna.web
 
-import `fun`.wackloner.marivanna.model.UserTranslation
+import `fun`.wackloner.marivanna.model.Translation
 import `fun`.wackloner.marivanna.repositories.TranslationRepository
 import org.bson.types.ObjectId
 import org.springframework.http.ResponseEntity
@@ -12,17 +12,17 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("/translations")
-class UserTranslationController(
+class TranslationController(
         private val translationRepository: TranslationRepository
 ) {
     @GetMapping
-    fun getAllTranslations(): ResponseEntity<List<UserTranslation>> {
+    fun getAllTranslations(): ResponseEntity<List<Translation>> {
         val translations = translationRepository.findAll()
         return ResponseEntity.ok(translations)
     }
 
     @GetMapping("/{id}")
-    fun getOneTranslation(@PathVariable("id") id: String): ResponseEntity<UserTranslation> {
+    fun getOneTranslation(@PathVariable("id") id: String): ResponseEntity<Translation> {
         val translation = translationRepository.findById(ObjectId(id))
         if (translation.isEmpty)
             return ResponseEntity.notFound().build()

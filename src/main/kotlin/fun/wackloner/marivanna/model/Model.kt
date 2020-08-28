@@ -16,14 +16,14 @@ class Emoji {
     }
 }
 
-data class Translation(val phrase: String, val translated: String, val sourceLang: String, val destLang: String)
+data class SimpleTranslation(val expression: String, val translation: String, val sourceLang: String, val destLang: String)
 
 @Document
-data class UserTranslation(
+data class Translation(
         val userId: Int,
-        val phrase: String,
+        val expression: String,
         val lang: String,
-        val translations: Map<String, List<String>>,
+        val translations: Map<String, Set<String>>,
         @Id val id: ObjectId = ObjectId.get(),
         val createdDate: LocalDateTime = LocalDateTime.now(),
         val modifiedDate: LocalDateTime = LocalDateTime.now()
@@ -32,10 +32,9 @@ data class UserTranslation(
         val allLangsTranslations = translations.values.flatten()
         return when(allLangsTranslations.size) {
             0 -> throw RuntimeException("Phrase without translations WTF? $this")
-            1 -> formatSingleTranslation(phrase, allLangsTranslations[0])
-            else -> "${Emoji.PAPER} <b>${phrase}</b>:\n" +
+            1 -> formatSingleTranslation(expression, allLangsTranslations[0])
+            else -> "${Emoji.PAPER} <b>${expression}</b>:\n" +
                     allLangsTranslations.withIndex().joinToString("\n") { (i, t) -> "<i>${i + 1}) $t</i>" }
         }
     }
-
 }

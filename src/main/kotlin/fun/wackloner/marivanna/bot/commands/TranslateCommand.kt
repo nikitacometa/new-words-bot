@@ -7,7 +7,7 @@ import org.telegram.telegrambots.meta.api.objects.Message
 
 
 @Component
-class TranslateCommand : KoreshCommand("translate", "translate a phrase and possibly save translations") {
+class TranslateCommand : KoreshCommand("translate", "translate a word or a phrase and save translations") {
 
     override fun process(bot: Bot, message: Message, arguments: Array<String>) {
         val wholeText = arguments.joinToString(" ")

@@ -33,7 +33,7 @@ class Bot(
             ApiContextInitializer.init()
         }
 
-        private val logger = KotlinLogging.logger {}
+        val logger = KotlinLogging.logger {}
     }
 
     @PostConstruct

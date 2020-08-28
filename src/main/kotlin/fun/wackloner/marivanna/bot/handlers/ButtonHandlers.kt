@@ -3,7 +3,6 @@ package `fun`.wackloner.marivanna.bot.handlers
 import `fun`.wackloner.marivanna.bot.*
 import `fun`.wackloner.marivanna.model.Emoji
 import `fun`.wackloner.marivanna.bot.commands.*
-import `fun`.wackloner.marivanna.model.UserTranslation
 import `fun`.wackloner.marivanna.utils.afterSaveKeyboard
 import `fun`.wackloner.marivanna.utils.formatSingleTranslation
 import `fun`.wackloner.marivanna.utils.mainMenuKeyboard
@@ -24,15 +23,14 @@ fun processSave(userId: Int, chatId: Long) {
     }
 
     try {
-        Context.translationRepository.save(UserTranslation(userId, translation.phrase,
-                Settings.NATIVE_LANGUAGE, mapOf(translation.destLang to listOf(translation.translated))))
+        Context.translationManager.addTranslation(userId, translation)
     } catch (e: Exception) {
         Context.bot.sendUpdate(chatId,
-                "Sorry, sweetheart, I failed to save '${translation.translated}'. Should the bad girl try again?..", saveKeyboard())
+                "Sorry, sweetheart, I failed to save '${translation.translation}'. Should the bad girl try again?..", saveKeyboard())
         return
     }
 
-    val resultStr = formatSingleTranslation(translation.phrase, translation.translated)
+    val resultStr = formatSingleTranslation(translation.expression, translation.translation)
     // TODO: 'oh DAMN your dictionary is SO big now': count
     Context.bot.sendUpdate(chatId,
             "Oh yea baby... I saved it for you ;)\n\n$resultStr", afterSaveKeyboard())

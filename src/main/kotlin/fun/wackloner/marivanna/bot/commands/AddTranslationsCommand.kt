@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component
 import org.telegram.telegrambots.meta.api.objects.Message
 
 
-fun processNewTranslations(text: String, userId: Int, chatId: Long) {
+fun processAddTranslations(text: String, userId: Int, chatId: Long) {
     val newTranslation = Context.translationManager.addTranslationsFromString(text, userId)
     if (newTranslation == null) {
         Context.bot.sendUpdate(chatId, "I failed to add <i>'$text'</i>... Try again?", retryKeyboard())
@@ -23,15 +23,13 @@ fun processNewTranslations(text: String, userId: Int, chatId: Long) {
 
 @Component
 class AddTranslationsCommand : KoreshCommand("add_translations", "add new translations") {
-
     override fun process(bot: Bot, message: Message, arguments: Array<String>) {
         val wholeText = arguments.joinToString(" ")
 
         try {
-            processNewTranslations(wholeText, message.from.id, message.chatId)
+            processAddTranslations(wholeText, message.from.id, message.chatId)
         } catch (e: Exception) {
             logger.error { e }
         }
     }
-
 }

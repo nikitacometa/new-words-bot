@@ -1,7 +1,7 @@
 package `fun`.wackloner.marivanna.web
 
-import `fun`.wackloner.marivanna.model.UserTranslation
-import `fun`.wackloner.marivanna.bot.commands.native
+import `fun`.wackloner.marivanna.bot.Settings
+import `fun`.wackloner.marivanna.model.Translation
 import `fun`.wackloner.marivanna.repositories.TranslationRepository
 
 import org.bson.types.ObjectId
@@ -24,7 +24,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ExtendWith(SpringExtension::class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-class UserTranslationControllerIntegrationTest
+class TranslationControllerIntegrationTest
 @Autowired constructor(
         private val translationRepository: TranslationRepository,
         private val restTemplate: TestRestTemplate
@@ -38,7 +38,8 @@ class UserTranslationControllerIntegrationTest
 
     @BeforeEach
     fun saveOneTask() {
-        translationRepository.save(UserTranslation(420, "cat", "en", native("кошка"), translationId))
+        translationRepository.save(Translation(420, "cat", "en",
+                mapOf(Settings.NATIVE_LANGUAGE to setOf("кошка")), translationId))
     }
 
     @AfterEach
@@ -62,7 +63,7 @@ class UserTranslationControllerIntegrationTest
     fun `should return single translation by id`() {
         val response = restTemplate.getForEntity(
                 getRootUrl() + "/$translationId",
-                UserTranslation::class.java
+                Translation::class.java
         )
 
         assertEquals(200, response.statusCode.value())

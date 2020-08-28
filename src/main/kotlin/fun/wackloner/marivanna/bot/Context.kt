@@ -1,7 +1,7 @@
 package `fun`.wackloner.marivanna.bot
 
 import `fun`.wackloner.marivanna.managers.TranslationManager
-import `fun`.wackloner.marivanna.model.Translation
+import `fun`.wackloner.marivanna.model.SimpleTranslation
 import `fun`.wackloner.marivanna.repositories.TranslationRepository
 import `fun`.wackloner.marivanna.services.TranslationService
 import org.springframework.context.ApplicationContext
@@ -30,6 +30,6 @@ class Context {
         var waitingForTranslate: Boolean = false
         var actionMessageId: Int? = null
 
-        var lastTranslation: Translation? = null
+        var lastTranslation: SimpleTranslation? = null
     }
 }
