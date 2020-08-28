@@ -31,5 +31,5 @@ fun processTranslate(text: String, chatId: Long) {
 
     val translation = Context.translationService.translate(text, Settings.NATIVE_LANGUAGE)
     Context.lastTranslation = translation
-    Context.bot.sendUpdate(chatId, "<b>${formatSingleTranslation(text, translation.translation)}</b>", saveKeyboard())
+    Context.bot.sendUpdate(chatId, formatSingleTranslation(text, translation.translation), saveKeyboard())
 }

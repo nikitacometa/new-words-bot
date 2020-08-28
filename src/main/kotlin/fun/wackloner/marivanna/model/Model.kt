@@ -18,12 +18,26 @@ class Emoji {
 
 data class SimpleTranslation(val expression: String, val translation: String, val sourceLang: String, val destLang: String)
 
+data class TranslationOption(val text: String, val created: LocalDateTime = LocalDateTime.now()) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (other?.javaClass != javaClass) return false
+
+        other as TranslationOption
+        return other.text == text
+    }
+
+    override fun hashCode(): Int {
+        return text.hashCode()
+    }
+}
+
 @Document
-data class Translation(
+data class Expression(
         val userId: Int,
-        val expression: String,
+        val text: String,
         val lang: String,
-        val translations: Map<String, Set<String>>,
+        val translations: Map<String, Set<TranslationOption>> = mapOf(),
         @Id val id: ObjectId = ObjectId.get(),
         val createdDate: LocalDateTime = LocalDateTime.now(),
         val modifiedDate: LocalDateTime = LocalDateTime.now()
@@ -32,9 +46,17 @@ data class Translation(
         val allLangsTranslations = translations.values.flatten()
         return when(allLangsTranslations.size) {
             0 -> throw RuntimeException("Phrase without translations WTF? $this")
-            1 -> formatSingleTranslation(expression, allLangsTranslations[0])
-            else -> "${Emoji.PAPER} <b>${expression}</b>:\n" +
-                    allLangsTranslations.withIndex().joinToString("\n") { (i, t) -> "<i>${i + 1}) $t</i>" }
+            1 -> formatSingleTranslation(text, allLangsTranslations[0].text)
+            else -> "${Emoji.PAPER} <b>${text}</b>:\n" +
+                    allLangsTranslations.withIndex().joinToString("\n") { (i, t) -> "<i>${i + 1}) ${t.text}</i>" }
         }
+    }
+
+    fun withNewTranslation(text: String, lang: String): Expression {
+        // TODO: refactor (?)
+        val newTranslations = translations.toMutableMap()
+        val forLang = newTranslations.getOrPut(lang) { setOf() }
+        newTranslations[lang] = forLang.plusElement(TranslationOption(text))
+        return copy(translations = newTranslations)
     }
 }

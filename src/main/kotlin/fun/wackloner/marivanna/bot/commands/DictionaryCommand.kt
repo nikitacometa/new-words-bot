@@ -16,7 +16,7 @@ fun showDictionary(userId: Int, chatId: Long) {
     // TODO: refactor to use decorators
     resetInputRequests()
 
-    val translations = Context.translationRepository.findByUserId(userId)
+    val translations = Context.expressionRepository.findByUserId(userId)
     if (translations.isEmpty())
         Context.bot.sendUpdate(chatId, "Your dictionary is empty(\nLet's fill it?", emptyDictionaryKeyboard())
     else

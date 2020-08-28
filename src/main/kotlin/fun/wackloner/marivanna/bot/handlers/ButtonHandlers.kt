@@ -23,7 +23,7 @@ fun processSave(userId: Int, chatId: Long) {
     }
 
     try {
-        Context.translationManager.addTranslation(userId, translation)
+        Context.expressionManager.addTranslation(userId, translation)
     } catch (e: Exception) {
         Context.bot.sendUpdate(chatId,
                 "Sorry, sweetheart, I failed to save '${translation.translation}'. Should the bad girl try again?..", saveKeyboard())

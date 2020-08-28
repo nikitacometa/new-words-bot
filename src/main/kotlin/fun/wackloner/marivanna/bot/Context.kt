@@ -1,8 +1,8 @@
 package `fun`.wackloner.marivanna.bot
 
-import `fun`.wackloner.marivanna.managers.TranslationManager
+import `fun`.wackloner.marivanna.managers.ExpressionManager
 import `fun`.wackloner.marivanna.model.SimpleTranslation
-import `fun`.wackloner.marivanna.repositories.TranslationRepository
+import `fun`.wackloner.marivanna.repositories.ExpressionRepository
 import `fun`.wackloner.marivanna.services.TranslationService
 import org.springframework.context.ApplicationContext
 import org.springframework.stereotype.Component
@@ -15,11 +15,11 @@ class Context {
         val bot: Bot
             get() = appContext.getBean(Bot::class.java)
 
-        val translationManager: TranslationManager
-            get() = appContext.getBean(TranslationManager::class.java)
+        val expressionManager: ExpressionManager
+            get() = appContext.getBean(ExpressionManager::class.java)
 
-        val translationRepository: TranslationRepository
-            get() = appContext.getBean(TranslationRepository::class.java)
+        val expressionRepository: ExpressionRepository
+            get() = appContext.getBean(ExpressionRepository::class.java)
 
         val translationService: TranslationService
             get() = appContext.getBean(TranslationService::class.java)

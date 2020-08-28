@@ -27,8 +27,6 @@ class Bot(
 ) : TelegramLongPollingCommandBot() {
 
     companion object {
-        const val TELEGRAM_BASE_URL = "https://api.telegram.org"
-
         init {
             ApiContextInitializer.init()
         }
