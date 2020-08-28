@@ -2,6 +2,7 @@ package `fun`.wackloner.marivanna.utils
 
 import `fun`.wackloner.marivanna.bot.Settings
 import `fun`.wackloner.marivanna.model.Emojis
+import `fun`.wackloner.marivanna.model.Operations
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton
 
@@ -11,14 +12,15 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKe
 
 fun appendEmoji(text: String, commandName: String): String {
     val emoji = when (commandName) {
-            "?dictionary" -> Emojis.RED_BOOK
-            "?addTranslation" -> Emojis.PENCIL
-            "?menu" -> Emojis.DANCING_GIRL
-            "?translate" -> "${Emojis.flag(Settings.LEARNING_LANGUAGE)}${Emojis.flag(Settings.NATIVE_LANGUAGE)}"
-            "?save" -> Emojis.FLOPPY
-            "?quiz" -> Emojis.SURFER
-            "?remind" -> Emojis.ROCKET
-            "?reminders" -> Emojis.CRYSTAL_BALL
+            Operations.DICTIONARY -> Emojis.RED_BOOK
+            Operations.ADD_TRANSLATION -> Emojis.PENCIL
+            Operations.MENU -> Emojis.DANCING_GIRL
+            Operations.TRANSLATE -> "${Emojis.flag(Settings.LEARNING_LANGUAGE)}${Emojis.flag(Settings.NATIVE_LANGUAGE)}"
+            Operations.SAVE -> Emojis.FLOPPY
+            Operations.QUIZ -> Emojis.SURFER
+            Operations.NOTIFY -> Emojis.ROCKET
+            Operations.NOTIFIERS -> Emojis.CRYSTAL_BALL
+            Operations.SETTINGS -> Emojis.WRENCH
         else -> return text
     }
     return "$emoji $text"
@@ -34,67 +36,70 @@ fun keyboardOf(vararg buttonRows: List<InlineKeyboardButton>): InlineKeyboardMar
 
 fun mainMenuKeyboard(): InlineKeyboardMarkup = keyboardOf(
         listOf(
-                newButton("Translate", "?translate"),
-                newButton("Add words", "?addTranslation")
+                newButton("Translate", Operations.TRANSLATE),
+                newButton("Add words", Operations.ADD_TRANSLATION)
         ),
         listOf(
-                newButton("Quiz", "?quiz"),
-                newButton("Dictionary", "?dictionary")
+                newButton("Quiz", Operations.QUIZ),
+                newButton("Dictionary", Operations.DICTIONARY)
         ),
         listOf(
-                newButton("Remind me", "?remind"),
-                newButton("My reminders", "?reminders")
+                newButton("Notify me", Operations.NOTIFY),
+                newButton("Notifiers", Operations.NOTIFIERS)
+        ),
+        listOf(
+                newButton("Settings", Operations.SETTINGS)
         )
 )
 
 // TODO: maybe add button 'save & translate'
 fun saveKeyboard(): InlineKeyboardMarkup = keyboardOf(
         listOf(
-                newButton("Save", "?save"),
-                newButton("Translate again", "?dictionary")
+                newButton("Save", Operations.SAVE),
+                newButton("Translate again", Operations.DICTIONARY)
         ),
         listOf(
-                newButton("Menu", "?menu")
+                newButton("Menu", Operations.MENU)
         )
 )
 
 fun afterSaveKeyboard(): InlineKeyboardMarkup = keyboardOf(
         listOf(
-                newButton("Translate", "?translate"),
-                newButton("Dictionary", "?dictionary")
+                newButton("Translate", Operations.TRANSLATE),
+                newButton("Dictionary", Operations.DICTIONARY)
         ),
         listOf(
-                newButton("Menu", "?menu")
+                newButton("Menu", Operations.MENU)
         )
 )
 
 fun emptyDictionaryKeyboard(): InlineKeyboardMarkup = keyboardOf(
         listOf(
-                newButton("Translate", "?translate"),
-                newButton("Just add", "?addTranslation")
+                newButton("Translate", Operations.TRANSLATE),
+                newButton("Just add", Operations.ADD_TRANSLATION)
         ),
         listOf(
-                newButton("Menu", "?menu")
+                newButton("Menu", Operations.MENU)
         )
 )
 
 fun afterAddKeyboard(): InlineKeyboardMarkup = keyboardOf(
         listOf(
-                newButton("Add more", "?addTranslation"),
-                newButton("Dictionary", "?dictionary")
+                newButton("Add more", Operations.ADD_TRANSLATION),
+                newButton("Dictionary", Operations.DICTIONARY)
         ),
         listOf(
-                newButton("Menu", "?menu")
+                newButton("Menu", Operations.MENU)
         )
 )
 
 fun afterDictionaryKeyboard(): InlineKeyboardMarkup = keyboardOf(
         listOf(
-                newButton("Translate", "?translate"),
-                newButton("Add translations", "?addTranslation")
+                newButton("Translate", Operations.TRANSLATE),
+                newButton("Add translations", Operations.ADD_TRANSLATION)
         ),
         listOf(
-                newButton("Menu", "?quiz")
+                newButton("Menu", Operations.MENU)
         )
 )
 
@@ -103,12 +108,12 @@ fun oneLineKeyboard(vararg buttons: InlineKeyboardButton): InlineKeyboardMarkup 
 
 // TODO: rename
 fun menuKeyboard(): InlineKeyboardMarkup = oneLineKeyboard(
-        newButton("Dictionary", "?dictionary"),
-        newButton("Menu", "?menu")
+        newButton("Dictionary", Operations.DICTIONARY),
+        newButton("Menu", Operations.MENU)
 )
 
 fun retryKeyboard(): InlineKeyboardMarkup = oneLineKeyboard(
         // TODO: implement retryAdd
-        newButton("Retry", "?retryAdd"),
-        newButton("Menu", "?menu")
+        newButton("Retry", Operations.RETRY),
+        newButton("Menu", Operations.MENU)
 )

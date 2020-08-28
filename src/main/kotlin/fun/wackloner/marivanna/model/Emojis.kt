@@ -16,6 +16,8 @@ class Emojis {
         const val ROCKET = "\uD83D\uDE80"
         const val CRYSTAL_BALL = "\uD83D\uDD2E"
         const val SPIRAL = "\uD83C\uDF00"
+        const val WRENCH = "\uD83D\uDD27"
+
 
         fun flag(countryCode: String): String = when(countryCode.toLowerCase()) {
             "en" -> "\uD83C\uDDFA\uD83C\uDDF8"
