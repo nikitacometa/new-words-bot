@@ -14,7 +14,7 @@ fun appendEmoji(text: String, commandName: String): String {
             "?dictionary" -> Emojis.RED_BOOK
             "?addTranslation" -> Emojis.PENCIL
             "?menu" -> Emojis.DANCING_GIRL
-            "?translate" -> Emojis.flag(Settings.LEARNING_LANGUAGE)
+            "?translate" -> "${Emojis.flag(Settings.LEARNING_LANGUAGE)}${Emojis.flag(Settings.NATIVE_LANGUAGE)}"
             "?save" -> Emojis.FLOPPY
             "?quiz" -> Emojis.SURFER
             "?remind" -> Emojis.ROCKET
@@ -94,8 +94,7 @@ fun afterDictionaryKeyboard(): InlineKeyboardMarkup = keyboardOf(
                 newButton("Add translations", "?addTranslation")
         ),
         listOf(
-                newButton("Quiz", "?quiz"),
-                newButton("Remind me", "?remind")
+                newButton("Menu", "?quiz")
         )
 )
 

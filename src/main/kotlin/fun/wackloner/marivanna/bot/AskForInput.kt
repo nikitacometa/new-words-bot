@@ -13,6 +13,7 @@ fun promptTranslation(chatId: Long) {
 }
 
 fun promptTranslate(chatId: Long) {
+    // TODO: add button to switch languages
     Context.bot.sendUpdate(chatId,
             "Hey, sexy, I'll translate everything for you${Emojis.WINKING}\n\n<i>Enter a word/phrase:</i>", menuKeyboard())
     Context.waitingForTranslate = true
