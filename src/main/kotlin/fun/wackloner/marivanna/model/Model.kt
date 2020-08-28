@@ -7,14 +7,6 @@ import org.springframework.data.annotation.Id
 import org.springframework.data.mongodb.core.mapping.Document
 import java.lang.RuntimeException
 
-class Emoji {
-    companion object {
-        const val PAPER = "\uD83D\uDCCB"
-        const val SEND_KISS= "\uD83D\uDE18"
-        const val LOVE_FACE = "\uD83E\uDD70"
-        const val WINKING = "\uD83D\uDE09"
-    }
-}
 
 data class SimpleTranslation(val expression: String, val translation: String, val sourceLang: String, val destLang: String)
 
@@ -47,7 +39,7 @@ data class Expression(
         return when(allLangsTranslations.size) {
             0 -> throw RuntimeException("Phrase without translations WTF? $this")
             1 -> formatSingleTranslation(text, allLangsTranslations[0].text)
-            else -> "${Emoji.PAPER} <b>${text}</b>:\n" +
+            else -> "${Emojis.SPIRAL} <b>${text}</b>:\n" +
                     allLangsTranslations.withIndex().joinToString("\n") { (i, t) -> "<i>${i + 1}) ${t.text}</i>" }
         }
     }

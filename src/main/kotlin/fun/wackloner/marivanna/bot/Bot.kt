@@ -1,6 +1,6 @@
 package `fun`.wackloner.marivanna.bot
 
-import `fun`.wackloner.marivanna.model.Emoji
+import `fun`.wackloner.marivanna.model.Emojis
 import `fun`.wackloner.marivanna.bot.commands.KoreshCommand
 import `fun`.wackloner.marivanna.utils.mainMenuKeyboard
 import `fun`.wackloner.marivanna.bot.handlers.processCallbackQuery
@@ -110,7 +110,7 @@ class Bot(
         }
 
         sendText(update.message.chatId,
-                "Sorry, I don't understand... What do you want me to do?${Emoji.WINKING}", mainMenuKeyboard())
+                "Sorry, I don't understand... What do you want me to do?${Emojis.WINKING}", mainMenuKeyboard())
     }
 
     override fun getBotUsername(): String = Settings.BOT_USERNAME

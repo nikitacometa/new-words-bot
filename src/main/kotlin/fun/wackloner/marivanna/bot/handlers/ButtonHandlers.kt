@@ -1,7 +1,7 @@
 package `fun`.wackloner.marivanna.bot.handlers
 
 import `fun`.wackloner.marivanna.bot.*
-import `fun`.wackloner.marivanna.model.Emoji
+import `fun`.wackloner.marivanna.model.Emojis
 import `fun`.wackloner.marivanna.bot.commands.*
 import `fun`.wackloner.marivanna.utils.afterSaveKeyboard
 import `fun`.wackloner.marivanna.utils.formatSingleTranslation
@@ -12,7 +12,7 @@ import org.telegram.telegrambots.meta.api.objects.CallbackQuery
 fun processMenu(chatId: Long) {
     resetInputRequests()
 
-    Context.bot.sendUpdate(chatId, "I will do whatever you want${Emoji.LOVE_FACE} (not really)", mainMenuKeyboard())
+    Context.bot.sendUpdate(chatId, "I will do whatever you want${Emojis.LOVE_FACE} (not really)", mainMenuKeyboard())
 }
 
 fun processSave(userId: Int, chatId: Long) {
@@ -33,7 +33,7 @@ fun processSave(userId: Int, chatId: Long) {
     val resultStr = formatSingleTranslation(translation.expression, translation.translation)
     // TODO: 'oh DAMN your dictionary is SO big now': count
     Context.bot.sendUpdate(chatId,
-            "Oh yea baby... I saved it for you ;)\n\n$resultStr", afterSaveKeyboard())
+            "Oh yea baby... I remembered it for you ;)\n\n$resultStr", afterSaveKeyboard())
 }
 
 

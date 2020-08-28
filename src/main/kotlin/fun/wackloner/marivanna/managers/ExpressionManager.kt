@@ -29,7 +29,7 @@ class ExpressionManager(val repository: ExpressionRepository) {
 
     fun addTranslationsFromString(text: String, userId: Int): List<SimpleTranslation> {
         // TODO: extract language from text or verify within settings
-        val newTranslations = text.split("\n").mapNotNull(::parseTranslation)
+        val newTranslations = text.toLowerCase().split("\n").mapNotNull(::parseTranslation)
 
         return newTranslations.mapNotNull { try {
             if (addTranslation(userId, it) == null) null else it

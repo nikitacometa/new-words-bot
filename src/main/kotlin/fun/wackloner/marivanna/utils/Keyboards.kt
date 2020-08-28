@@ -1,11 +1,32 @@
 package `fun`.wackloner.marivanna.utils
 
+import `fun`.wackloner.marivanna.bot.Settings
+import `fun`.wackloner.marivanna.model.Emojis
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton
 
-// TODO: add emojis to buttons
 
-fun newButton(text: String, callbackData: String): InlineKeyboardButton = InlineKeyboardButton(text).setCallbackData(callbackData)
+// TODO: add settings button
+// TODO: union command, button, emoji, etc into one entity/mapping (eg BotAction)
+
+fun appendEmoji(text: String, commandName: String): String {
+    val emoji = when (commandName) {
+            "?dictionary" -> Emojis.RED_BOOK
+            "?addTranslation" -> Emojis.PENCIL
+            "?menu" -> Emojis.DANCING_GIRL
+            "?translate" -> Emojis.flag(Settings.LEARNING_LANGUAGE)
+            "?save" -> Emojis.FLOPPY
+            "?quiz" -> Emojis.SURFER
+            "?remind" -> Emojis.ROCKET
+            "?reminders" -> Emojis.CRYSTAL_BALL
+        else -> return text
+    }
+    return "$emoji $text"
+}
+
+
+fun newButton(text: String, callbackData: String): InlineKeyboardButton =
+        InlineKeyboardButton(appendEmoji(text, callbackData)).setCallbackData(callbackData)
 
 fun keyboardOf(vararg buttonRows: List<InlineKeyboardButton>): InlineKeyboardMarkup =
         InlineKeyboardMarkup().setKeyboard(buttonRows.toList())
@@ -14,7 +35,7 @@ fun keyboardOf(vararg buttonRows: List<InlineKeyboardButton>): InlineKeyboardMar
 fun mainMenuKeyboard(): InlineKeyboardMarkup = keyboardOf(
         listOf(
                 newButton("Translate", "?translate"),
-                newButton("Add translations", "?addTranslation")
+                newButton("Add words", "?addTranslation")
         ),
         listOf(
                 newButton("Quiz", "?quiz"),
@@ -23,6 +44,17 @@ fun mainMenuKeyboard(): InlineKeyboardMarkup = keyboardOf(
         listOf(
                 newButton("Remind me", "?remind"),
                 newButton("My reminders", "?reminders")
+        )
+)
+
+// TODO: maybe add button 'save & translate'
+fun saveKeyboard(): InlineKeyboardMarkup = keyboardOf(
+        listOf(
+                newButton("Save", "?save"),
+                newButton("Translate again", "?dictionary")
+        ),
+        listOf(
+                newButton("Menu", "?menu")
         )
 )
 
@@ -76,13 +108,8 @@ fun menuKeyboard(): InlineKeyboardMarkup = oneLineKeyboard(
         newButton("Menu", "?menu")
 )
 
-fun saveKeyboard(): InlineKeyboardMarkup = oneLineKeyboard(
-        newButton("Save", "?save"),
-        newButton("Again", "?translate"),
-        newButton("Menu", "?menu")
-)
-
 fun retryKeyboard(): InlineKeyboardMarkup = oneLineKeyboard(
+        // TODO: implement retryAdd
         newButton("Retry", "?retryAdd"),
         newButton("Menu", "?menu")
 )

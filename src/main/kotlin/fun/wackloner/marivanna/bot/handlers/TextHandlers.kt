@@ -14,8 +14,9 @@ fun tryProcessCommandData(message: Message): Boolean {
         return true
     }
 
+    // TODO: maybe allow storing camel case as well (?)
     if (Context.waitingForTranslate) {
-        processTranslate(message.text, message.chatId)
+        processTranslate(message.text.toLowerCase(), message.chatId)
         Context.waitingForTranslate = false
         return true
     }

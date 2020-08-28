@@ -2,7 +2,7 @@ package `fun`.wackloner.marivanna.bot.commands
 
 import `fun`.wackloner.marivanna.bot.Context
 import `fun`.wackloner.marivanna.bot.Bot
-import `fun`.wackloner.marivanna.model.Emoji
+import `fun`.wackloner.marivanna.model.Emojis
 import `fun`.wackloner.marivanna.utils.afterAddKeyboard
 import `fun`.wackloner.marivanna.utils.formatSingleTranslation
 import `fun`.wackloner.marivanna.utils.retryKeyboard
@@ -20,7 +20,7 @@ fun processAddTranslations(text: String, userId: Int, chatId: Long) {
 
     val translationsStr = newTranslations.joinToString("\n") { formatSingleTranslation(it.expression, it.translation) }
     Context.bot.sendUpdate(chatId,
-            "Wow, you're so smart${Emoji.WINKING}\n\n<i>New translations:</i>\n$translationsStr", afterAddKeyboard())
+            "Wow, you're so smart${Emojis.WINKING}\n\n<i>New translations:</i>\n$translationsStr", afterAddKeyboard())
 }
 
 @Component
