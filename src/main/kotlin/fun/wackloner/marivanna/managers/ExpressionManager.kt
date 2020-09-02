@@ -1,7 +1,7 @@
 package `fun`.wackloner.marivanna.managers
 
 import `fun`.wackloner.marivanna.bot.Bot
-import `fun`.wackloner.marivanna.bot.Settings
+import `fun`.wackloner.marivanna.bot.Context
 import `fun`.wackloner.marivanna.model.SimpleTranslation
 import `fun`.wackloner.marivanna.model.Expression
 import `fun`.wackloner.marivanna.repositories.ExpressionRepository
@@ -9,7 +9,7 @@ import mu.KotlinLogging
 import org.springframework.stereotype.Service
 
 
-fun parseTranslation(text: String): SimpleTranslation? {
+fun parseTranslation(text: String, userId: Int, chatId: Long): SimpleTranslation? {
     val delimiter = when {
         text.contains("—") -> "—"
         text.contains("--") -> "--"
@@ -19,7 +19,8 @@ fun parseTranslation(text: String): SimpleTranslation? {
 
     // TODO: handle bad hyphens
     val (expression, translation) = text.split(delimiter)
-    return SimpleTranslation(expression.trim(), translation.trim(), Settings.LEARNING_LANGUAGE, Settings.NATIVE_LANGUAGE)
+    return SimpleTranslation(expression.trim(), translation.trim(),
+            Context.forChat(chatId).sourceLanguage, Context.forChat(chatId).destLanguage)
 }
 
 @Service
@@ -28,12 +29,12 @@ class ExpressionManager(val repository: ExpressionRepository) {
         val logger = KotlinLogging.logger {}
     }
 
-    fun addTranslationsFromString(text: String, userId: Int): List<SimpleTranslation> {
+    fun addTranslationsFromString(text: String, userId: Int, chatId: Long): List<SimpleTranslation> {
         // TODO: extract language from text or verify within settings
-        val newTranslations = text.toLowerCase().split("\n").mapNotNull(::parseTranslation)
+        val newTranslations = text.toLowerCase().split("\n").mapNotNull { parseTranslation(it, userId, chatId) }
 
         return newTranslations.mapNotNull { try {
-            if (addTranslation(userId, it) == null) null else it
+            if (addTranslation(userId, chatId, it) == null) null else it
         } catch (e: Exception) {
             logger.error { e }
             null
@@ -41,7 +42,7 @@ class ExpressionManager(val repository: ExpressionRepository) {
     }
 
     // TODO: add batch-version with group by
-    fun addTranslation(userId: Int, text: String, sourceLang: String, translation: String, destLang: String): Expression? {
+    fun addTranslation(userId: Int, chatId: Long, text: String, sourceLang: String, translation: String, destLang: String): Expression? {
         val existing = repository.findByUserIdAndText(userId, text)
 
         val curExpression = when(existing.size) {
@@ -59,6 +60,6 @@ class ExpressionManager(val repository: ExpressionRepository) {
         return repository.save(updated)
     }
 
-    fun addTranslation(userId: Int, t: SimpleTranslation): Expression? =
-            addTranslation(userId, t.expression, t.sourceLang, t.translation, t.destLang)
+    fun addTranslation(userId: Int, chatId: Long, t: SimpleTranslation): Expression? =
+            addTranslation(userId, chatId, t.expression, t.sourceLang, t.translation, t.destLang)
 }

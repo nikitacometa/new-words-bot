@@ -54,12 +54,14 @@ class Bot(
             keyboardMarkup: InlineKeyboardMarkup? = null,
             parseMode: String? = ParseMode.HTML
     ): Message {
-        return execute(SendMessage()
+        val message = execute(SendMessage()
                 .setText(text)
                 .setChatId(chatId)
                 .setReplyMarkup(keyboardMarkup)
                 .setParseMode(parseMode)
         )
+        Context.forChat(chatId).actionMessageId = message.messageId
+        return message
     }
 
     fun editLastMessage(
@@ -68,11 +70,11 @@ class Bot(
             keyboardMarkup: InlineKeyboardMarkup? = null,
             parseMode: String? = ParseMode.HTML
     ): Message? {
-        if (Context.actionMessageId == null)
+        if (Context.forChat(chatId).actionMessageId == null)
             return null
 
         val res = execute(EditMessageText()
-                .setMessageId(Context.actionMessageId)
+                .setMessageId(Context.forChat(chatId).actionMessageId)
                 .setText(text)
                 .setChatId(chatId)
                 .setReplyMarkup(keyboardMarkup)
@@ -86,15 +88,8 @@ class Bot(
             text: String,
             keyboardMarkup: InlineKeyboardMarkup? = null,
             parseMode: String? = ParseMode.HTML
-    ): Message {
-        val previousMessage = editLastMessage(chatId, text, keyboardMarkup, parseMode)
-        if (previousMessage == null) {
-            val newMessage = sendText(chatId, text, keyboardMarkup, parseMode)
-            Context.actionMessageId = newMessage.messageId
-            return newMessage
-        }
-        return previousMessage
-    }
+    ): Message = editLastMessage(chatId, text, keyboardMarkup, parseMode)
+            ?: sendText(chatId, text, keyboardMarkup, parseMode)
 
     override fun processNonCommandUpdate(update: Update) {
         logger.info { update }
@@ -104,14 +99,15 @@ class Bot(
             return
         }
 
-        Context.actionMessageId = null
+        Context.forChat(update.message.chatId).actionMessageId = null
 
         if (tryProcessCommandData(update.message)) {
             return
         }
 
         sendText(update.message.chatId,
-                "Sorry, I don't understand... What do you want me to do?${Emojis.WINKING}", mainMenuKeyboard())
+                "Sorry, I don't understand... What do you want me to do?${Emojis.WINKING}",
+                mainMenuKeyboard(update.message.chatId))
     }
 
     override fun getBotUsername(): String = Settings.BOT_USERNAME

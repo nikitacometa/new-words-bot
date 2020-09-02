@@ -17,11 +17,11 @@ fun promptTranslation(chatId: Long) {
                     "<i>cat — киса\nThis bot is sooo cool — это бот быть тааак круто</i>",
             dictionaryOrMenu()
     )
-    Context.waitingForTranslation = true
+    Context.forChat(chatId).waitingForTranslation = true
 }
 
 fun processAddTranslations(text: String, userId: Int, chatId: Long) {
-    val newTranslations = Context.expressionManager.addTranslationsFromString(text, userId)
+    val newTranslations = Context.expressionManager.addTranslationsFromString(text, userId, chatId)
     if (newTranslations.isEmpty()) {
         Context.bot.sendUpdate(chatId, "Sorry, my love, I failed to add the translation... Try again?", dictionaryOrMenu())
         return

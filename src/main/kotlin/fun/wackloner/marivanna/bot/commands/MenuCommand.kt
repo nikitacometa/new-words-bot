@@ -7,7 +7,7 @@ import `fun`.wackloner.marivanna.utils.mainMenuKeyboard
 
 
 fun processMenu(chatId: Long) {
-    resetInputRequests()
+    resetInputRequests(chatId)
 
-    Context.bot.sendUpdate(chatId, "I'll do whatever you want${Emojis.LOVE_FACE}", mainMenuKeyboard())
+    Context.bot.sendUpdate(chatId, "I'll do whatever you want${Emojis.LOVE_FACE}", mainMenuKeyboard(chatId))
 }

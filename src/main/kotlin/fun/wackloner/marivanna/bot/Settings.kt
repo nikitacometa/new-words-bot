@@ -15,7 +15,4 @@ object Settings {
     val BOT_USERNAME: String = properties.getProperty("bot.username")
 
     const val MAX_TEXT_LENGTH: Int = 1000
-    // TODO: set
-    const val LEARNING_LANGUAGE: String = "en"
-    const val NATIVE_LANGUAGE: String = "ru"
 }

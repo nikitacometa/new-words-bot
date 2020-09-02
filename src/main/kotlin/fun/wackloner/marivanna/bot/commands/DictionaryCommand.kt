@@ -14,13 +14,13 @@ import org.telegram.telegrambots.meta.api.objects.Message
 // TODO: buttons for pages
 fun showDictionary(userId: Int, chatId: Long) {
     // TODO: refactor to use decorators
-    resetInputRequests()
+    resetInputRequests(chatId)
 
     val translations = Context.expressionRepository.findByUserId(userId)
     if (translations.isEmpty())
-        Context.bot.sendUpdate(chatId, "Your dictionary is empty(\nLet's fill it?", emptyDictionaryKeyboard())
+        Context.bot.sendUpdate(chatId, "Your dictionary is empty(\nLet's fill it?", emptyDictionaryKeyboard(chatId))
     else
-        Context.bot.sendUpdate(chatId, translations.joinToString("\n\n") { it.beautifulHtml() }, afterDictionaryKeyboard())
+        Context.bot.sendUpdate(chatId, translations.joinToString("\n\n") { it.beautifulHtml() }, afterDictionaryKeyboard(chatId))
 }
 
 @Component

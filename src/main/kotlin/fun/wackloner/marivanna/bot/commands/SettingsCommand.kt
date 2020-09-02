@@ -4,6 +4,6 @@ import `fun`.wackloner.marivanna.bot.handlers.sendInProgress
 import `fun`.wackloner.marivanna.bot.resetInputRequests
 
 fun processSettings(chatId: Long) {
-    resetInputRequests()
+    resetInputRequests(chatId)
     sendInProgress(chatId)
 }

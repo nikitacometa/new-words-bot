@@ -2,6 +2,7 @@ package `fun`.wackloner.marivanna.web
 
 import `fun`.wackloner.marivanna.bot.Settings
 import `fun`.wackloner.marivanna.model.Expression
+import `fun`.wackloner.marivanna.model.Languages
 import `fun`.wackloner.marivanna.model.TranslationOption
 import `fun`.wackloner.marivanna.repositories.ExpressionRepository
 
@@ -39,8 +40,8 @@ class TranslationControllerIntegrationTest
 
     @BeforeEach
     fun saveOneTask() {
-        expressionRepository.save(Expression(420, "cat", "en",
-                mapOf(Settings.NATIVE_LANGUAGE to setOf(TranslationOption("кошка"))), translationId))
+        expressionRepository.save(Expression(420, "cat", Languages.EN,
+                mapOf(Languages.RU to setOf(TranslationOption("кошка"))), translationId))
     }
 
     @AfterEach

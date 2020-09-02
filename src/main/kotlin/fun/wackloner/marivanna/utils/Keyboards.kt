@@ -1,21 +1,20 @@
 package `fun`.wackloner.marivanna.utils
 
-import `fun`.wackloner.marivanna.bot.Settings
+import `fun`.wackloner.marivanna.bot.Context
 import `fun`.wackloner.marivanna.model.Emojis
 import `fun`.wackloner.marivanna.model.Operations
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.buttons.InlineKeyboardButton
 
 
-// TODO: add settings button
 // TODO: union command, button, emoji, etc into one entity/mapping (eg BotAction)
 
-fun appendEmoji(text: String, commandName: String): String {
+fun appendEmoji(text: String, commandName: String, chatId: Long? = null): String {
     val emoji = when (commandName) {
             Operations.DICTIONARY -> Emojis.RED_BOOK
             Operations.ADD_TRANSLATION -> Emojis.PENCIL
             Operations.MENU -> Emojis.DANCING_GIRL
-            Operations.TRANSLATE -> "${Emojis.flag(Settings.LEARNING_LANGUAGE)}${Emojis.flag(Settings.NATIVE_LANGUAGE)}"
+            Operations.TRANSLATE -> "${Emojis.flag(Context.forChat(chatId).sourceLanguage)}${Emojis.flag(Context.forChat(chatId).destLanguage)}"
             Operations.SAVE -> Emojis.FLOPPY
             Operations.QUIZ -> Emojis.SURFER
             Operations.NOTIFY -> Emojis.ROCKET
@@ -27,16 +26,16 @@ fun appendEmoji(text: String, commandName: String): String {
 }
 
 
-fun newButton(text: String, callbackData: String): InlineKeyboardButton =
-        InlineKeyboardButton(appendEmoji(text, callbackData)).setCallbackData(callbackData)
+fun newButton(text: String, callbackData: String, chatId: Long? = null): InlineKeyboardButton =
+        InlineKeyboardButton(appendEmoji(text, callbackData, chatId)).setCallbackData(callbackData)
 
 fun keyboardOf(vararg buttonRows: List<InlineKeyboardButton>): InlineKeyboardMarkup =
         InlineKeyboardMarkup().setKeyboard(buttonRows.toList())
 
 
-fun mainMenuKeyboard(): InlineKeyboardMarkup = keyboardOf(
+fun mainMenuKeyboard(chatId: Long): InlineKeyboardMarkup = keyboardOf(
         listOf(
-                newButton("Translate", Operations.TRANSLATE),
+                newButton("Translate", Operations.TRANSLATE, chatId),
                 newButton("Add words", Operations.ADD_TRANSLATION)
         ),
         listOf(
@@ -52,9 +51,9 @@ fun mainMenuKeyboard(): InlineKeyboardMarkup = keyboardOf(
         )
 )
 
-fun emptyDictionaryKeyboard(): InlineKeyboardMarkup = keyboardOf(
+fun emptyDictionaryKeyboard(chatId: Long): InlineKeyboardMarkup = keyboardOf(
         listOf(
-                newButton("Translate", Operations.TRANSLATE),
+                newButton("Translate", Operations.TRANSLATE, chatId),
                 newButton("Just add", Operations.ADD_TRANSLATION)
         ),
         listOf(
@@ -62,9 +61,9 @@ fun emptyDictionaryKeyboard(): InlineKeyboardMarkup = keyboardOf(
         )
 )
 
-fun afterDictionaryKeyboard(): InlineKeyboardMarkup = keyboardOf(
+fun afterDictionaryKeyboard(chatId: Long): InlineKeyboardMarkup = keyboardOf(
         listOf(
-                newButton("Translate", Operations.TRANSLATE),
+                newButton("Translate", Operations.TRANSLATE, chatId),
                 newButton("Add translations", Operations.ADD_TRANSLATION)
         ),
         listOf(

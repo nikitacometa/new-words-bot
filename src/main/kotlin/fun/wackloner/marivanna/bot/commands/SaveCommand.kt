@@ -7,14 +7,14 @@ import `fun`.wackloner.marivanna.utils.mainMenuKeyboard
 import `fun`.wackloner.marivanna.utils.saveKeyboard
 
 fun processSave(userId: Int, chatId: Long) {
-    val translation = Context.lastTranslation
+    val translation = Context.forChat(chatId).lastTranslation
     if (translation == null) {
-        Context.bot.sendUpdate(chatId, "There was not translations yet... Translate something?)", mainMenuKeyboard())
+        Context.bot.sendUpdate(chatId, "There was not translations yet... Translate something?)", mainMenuKeyboard(chatId))
         return
     }
 
     try {
-        Context.expressionManager.addTranslation(userId, translation)
+        Context.expressionManager.addTranslation(userId, chatId, translation)
     } catch (e: Exception) {
         Context.bot.sendUpdate(chatId,
                 "Sorry, sweetheart, I failed to save '${translation.translation}'. Should the bad girl try again?..", saveKeyboard())
