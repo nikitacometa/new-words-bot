@@ -16,12 +16,25 @@ data class Quiz(val options: List<Expression>, val questionWord: String, val rig
 fun optionsKeyboard(options: List<Expression>): InlineKeyboardMarkup = keyboardOf(
         // TODO: refactor no const in code
         listOf(
-                newButton(Emojis.SPIRAL + options[0].text, "0"),
-                newButton(Emojis.SPIRAL + options[1].text, "1")
+                newButton(Emojis.SPIRAL + options[0].text, Operations.FIRST_OPTION),
+                newButton(Emojis.SPIRAL + options[1].text, Operations.SECOND_OPTION)
         ),
         listOf(
-                newButton(Emojis.SPIRAL + options[2].text, "2"),
-                newButton(Emojis.SPIRAL + options[3].text, "3")
+                newButton(Emojis.SPIRAL + options[2].text, Operations.THIRD_OPTION),
+                newButton(Emojis.SPIRAL + options[3].text, Operations.FOURTH_OPTION)
+        ),
+        listOf(
+                newButton("Cancel", Operations.MENU)
+        )
+)
+
+fun chooseQuizKeyboard(): InlineKeyboardMarkup = keyboardOf(
+        // TODO: refactor no const in code
+        listOf(
+                newButton("1", "1"),
+                newButton("5", "5"),
+                newButton("10", "10"),
+                newButton("20", "20")
         ),
         listOf(
                 newButton("Cancel", Operations.MENU)
@@ -29,6 +42,10 @@ fun optionsKeyboard(options: List<Expression>): InlineKeyboardMarkup = keyboardO
 )
 
 fun processQuiz(userId: Int, chatId: Long) {
+    Context.bot.sendUpdate(chatId, "How many questions do you want?", chooseQuizKeyboard())
+}
+
+fun processSingleQuiz(userId: Int, chatId: Long) {
     val allExpressions = Context.expressionRepository.findByUserId(userId)
 
     if (allExpressions.size < Settings.QUIZ_ANSWERS) {

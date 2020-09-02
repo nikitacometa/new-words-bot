@@ -10,8 +10,14 @@ object Operations {
     const val SAVE = "?save"
 
     const val QUIZ = "?quiz"
+    const val SINGLE_QUIZ = "?singleQuiz"
     const val NOTIFY = "?notify"
     const val NOTIFIERS = "?notifiers"
 
     const val RETRY = "?retry"
+
+    const val FIRST_OPTION = "?0"
+    const val SECOND_OPTION = "?1"
+    const val THIRD_OPTION = "?2"
+    const val FOURTH_OPTION = "?3"
 }

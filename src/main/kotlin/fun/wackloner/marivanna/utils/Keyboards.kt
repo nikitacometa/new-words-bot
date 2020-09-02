@@ -16,7 +16,7 @@ fun appendEmoji(text: String, commandName: String, chatId: Long? = null): String
             Operations.MENU -> Emojis.DANCING_GIRL
             Operations.TRANSLATE -> "${Emojis.flag(Context.forChat(chatId).sourceLanguage)}${Emojis.flag(Context.forChat(chatId).destLanguage)}"
             Operations.SAVE -> Emojis.FLOPPY
-            Operations.QUIZ -> Emojis.SURFER
+            Operations.QUIZ, Operations.SINGLE_QUIZ -> Emojis.SURFER
             Operations.NOTIFY -> Emojis.ROCKET
             Operations.NOTIFIERS -> Emojis.CRYSTAL_BALL
             Operations.SETTINGS -> Emojis.WRENCH
@@ -39,7 +39,8 @@ fun mainMenuKeyboard(chatId: Long): InlineKeyboardMarkup = keyboardOf(
                 newButton("Add words", Operations.ADD_TRANSLATION)
         ),
         listOf(
-                newButton("Quiz", Operations.QUIZ),
+                // TODO: replace with quiz and implement multi-questioned quizes
+                newButton("Quiz", Operations.SINGLE_QUIZ),
                 newButton("Dictionary", Operations.DICTIONARY)
         ),
         listOf(
@@ -75,7 +76,7 @@ fun afterDictionaryKeyboard(chatId: Long): InlineKeyboardMarkup = keyboardOf(
 fun oneLineKeyboard(vararg buttons: InlineKeyboardButton): InlineKeyboardMarkup = keyboardOf(buttons.toList())
 
 fun afterQuizKeyboard(): InlineKeyboardMarkup = oneLineKeyboard(
-        newButton("Again", Operations.QUIZ),
+        newButton("Again", Operations.SINGLE_QUIZ),
         newButton("Menu", Operations.MENU)
 )
 

@@ -13,7 +13,10 @@ fun sendInProgress(chatId: Long) =
                 oneLineKeyboard(newButton("Menu", Operations.MENU)))
 
 fun tryProgressAnswer(answer: String, chatId: Long): Boolean {
-    val optionNum = answer.toIntOrNull() ?: return false
+    if (answer[0] != '?') {
+        return false
+    }
+    val optionNum = answer.substring(1).toIntOrNull() ?: return false
 
     val quiz = Context.forChat(chatId).currentQuiz
     if (quiz == null) {
@@ -23,11 +26,26 @@ fun tryProgressAnswer(answer: String, chatId: Long): Boolean {
     }
 
     if (optionNum == quiz.rightOption) {
-        Context.bot.sendUpdate(chatId, "Hell yea, right (:", afterQuizKeyboard())
+        val inARow = ++Context.forChat(chatId).questionsInARow
+        val addText = if (inARow > 1) " $inARow in a row!" else ""
+        Context.bot.sendUpdate(chatId, "Hell yea, right (:$addText", afterQuizKeyboard())
     } else {
         Context.bot.sendUpdate(chatId,
                 "Wrong! :(\n\n${formatSingleTranslation(quiz.questionWord, quiz.options[quiz.rightOption].text)}",
                 afterQuizKeyboard())
+        Context.forChat(chatId).questionsInARow = 0
+    }
+
+    return true
+}
+
+fun tryProgressChooseQuiz(text: String, userId: Int, chatId: Long): Boolean {
+    val num = text.toIntOrNull() ?: return false
+
+    if (num == 1) {
+        processSingleQuiz(userId, chatId)
+    } else {
+        processSingleQuiz(userId, chatId)
     }
 
     return true
@@ -35,6 +53,10 @@ fun tryProgressAnswer(answer: String, chatId: Long): Boolean {
 
 fun defaultButtonHandler(text: String, userId: Int, chatId: Long) {
     if (tryProgressAnswer(text, chatId)) {
+        return
+    }
+
+    if (tryProgressChooseQuiz(text, userId, chatId)) {
         return
     }
 
@@ -55,6 +77,7 @@ fun processCallbackQuery(callbackQuery: CallbackQuery) {
         Operations.SAVE -> processSave(userId, chatId)
         Operations.SETTINGS -> processSettings(chatId)
         Operations.QUIZ -> processQuiz(userId, chatId)
+        Operations.SINGLE_QUIZ -> processSingleQuiz(userId, chatId)
         else -> defaultButtonHandler(text, userId, chatId)
     }
 }
