@@ -14,6 +14,8 @@ object Operations {
     const val NOTIFY = "?notify"
     const val NOTIFIERS = "?notifiers"
 
+    const val SWAP_LANGUAGES = "?swapLanguages"
+
     const val RETRY = "?retry"
 
     const val FIRST_OPTION = "?0"

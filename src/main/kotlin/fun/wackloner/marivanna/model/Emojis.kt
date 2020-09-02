@@ -18,6 +18,7 @@ class Emojis {
         const val SPIRAL = "\uD83C\uDF00"
         const val WRENCH = "\uD83D\uDD27"
 
+        const val COUNTER_CLOCKWISE = "\uD83D\uDD04"
 
         fun flag(countryCode: String): String = when(countryCode.toLowerCase()) {
             "en" -> "\uD83C\uDDFA\uD83C\uDDF8"

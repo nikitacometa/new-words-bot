@@ -3,16 +3,16 @@ package `fun`.wackloner.marivanna.bot.commands
 import `fun`.wackloner.marivanna.bot.Bot
 import `fun`.wackloner.marivanna.bot.Context
 import `fun`.wackloner.marivanna.bot.Settings
-import `fun`.wackloner.marivanna.utils.dictionaryOrMenu
 import `fun`.wackloner.marivanna.utils.formatSingleTranslation
 import `fun`.wackloner.marivanna.utils.saveKeyboard
+import `fun`.wackloner.marivanna.utils.translateKeyboard
 import org.springframework.stereotype.Component
 import org.telegram.telegrambots.meta.api.objects.Message
 
 
 fun promptTranslate(chatId: Long) {
     // TODO: add button to switch languages
-    Context.bot.sendUpdate(chatId, "<i>Enter a word/phrase:</i>", dictionaryOrMenu())
+    Context.bot.sendUpdate(chatId, "<i>Enter a word/phrase:</i>", translateKeyboard(chatId))
     Context.forChat(chatId).waitingForTranslate = true
 }
 
@@ -25,12 +25,16 @@ fun processTranslate(text: String, chatId: Long) {
     try {
         val translation = Context.translationService.translate(text, Context.forChat(chatId).destLanguage)
         Context.forChat(chatId).lastTranslation = translation
+        // TODO: refactor
+        if (Context.forChat(chatId).languagesSwapped) {
+            Context.forChat(chatId).lastTranslation = translation.swapped()
+        }
         Context.bot.sendUpdate(chatId, "${formatSingleTranslation(text, translation.translation)}\n\n" +
-                "<i>Enter a word/phrase to translate more:</i>", saveKeyboard())
+                "<i>Enter a word/phrase to translate more:</i>", saveKeyboard(chatId))
     } catch (e: Exception) {
         Bot.logger.error { e }
         Context.bot.sendUpdate(chatId,
-                "Failed, translator sucks... Try again?\n\n<i>Enter a word/phrase:</i>", dictionaryOrMenu())
+                "Failed, translator sucks... Try again?\n\n<i>Enter a word/phrase:</i>", translateKeyboard(chatId))
     }
 }
 

@@ -78,6 +78,7 @@ fun processCallbackQuery(callbackQuery: CallbackQuery) {
         Operations.SETTINGS -> processSettings(chatId)
         Operations.QUIZ -> processQuiz(userId, chatId)
         Operations.SINGLE_QUIZ -> processSingleQuiz(userId, chatId)
+        Operations.SWAP_LANGUAGES -> processSwapLanguages(chatId)
         else -> defaultButtonHandler(text, userId, chatId)
     }
 }

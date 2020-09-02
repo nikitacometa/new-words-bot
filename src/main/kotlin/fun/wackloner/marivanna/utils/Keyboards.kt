@@ -80,12 +80,19 @@ fun afterQuizKeyboard(): InlineKeyboardMarkup = oneLineKeyboard(
         newButton("Menu", Operations.MENU)
 )
 
-fun saveKeyboard(): InlineKeyboardMarkup = oneLineKeyboard(
+fun saveKeyboard(chatId: Long): InlineKeyboardMarkup = oneLineKeyboard(
+        newButton("${Emojis.flag(Context.forChat(chatId).sourceLanguage)}${Emojis.COUNTER_CLOCKWISE}${Emojis.flag(Context.forChat(chatId).destLanguage)}", Operations.SWAP_LANGUAGES),
         newButton("Save", Operations.SAVE),
         newButton("Menu", Operations.MENU)
 )
 
 fun dictionaryOrMenu(): InlineKeyboardMarkup = oneLineKeyboard(
         newButton("Dictionary", Operations.DICTIONARY),
+        newButton("Menu", Operations.MENU)
+)
+
+fun translateKeyboard(chatId: Long): InlineKeyboardMarkup = oneLineKeyboard(
+        newButton("${Emojis.flag(Context.forChat(chatId).sourceLanguage)}${Emojis.COUNTER_CLOCKWISE}${Emojis.flag(Context.forChat(chatId).destLanguage)}", Operations.SWAP_LANGUAGES),
+        newButton("Dict", Operations.DICTIONARY),
         newButton("Menu", Operations.MENU)
 )

@@ -9,6 +9,7 @@ data class ChatData(
         var learningLanguage: String = Languages.EN,
         var sourceLanguage: String = Languages.EN,
         var destLanguage: String = Languages.RU,
+        var languagesSwapped: Boolean = false,
 
         var waitingForTranslation: Boolean = false,
         var waitingForTranslate: Boolean = false,

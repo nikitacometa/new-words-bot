@@ -8,7 +8,9 @@ import org.springframework.data.mongodb.core.mapping.Document
 import java.lang.RuntimeException
 
 
-data class SimpleTranslation(val expression: String, val translation: String, val sourceLang: String, val destLang: String)
+data class SimpleTranslation(val expression: String, val translation: String, val sourceLang: String, val destLang: String) {
+    fun swapped(): SimpleTranslation = SimpleTranslation(translation, expression, destLang, sourceLang)
+}
 
 data class TranslationOption(val text: String, val created: LocalDateTime = LocalDateTime.now()) {
     override fun equals(other: Any?): Boolean {
