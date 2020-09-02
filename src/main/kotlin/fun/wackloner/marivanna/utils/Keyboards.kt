@@ -52,41 +52,10 @@ fun mainMenuKeyboard(): InlineKeyboardMarkup = keyboardOf(
         )
 )
 
-// TODO: maybe add button 'save & translate'
-fun saveKeyboard(): InlineKeyboardMarkup = keyboardOf(
-        listOf(
-                newButton("Save", Operations.SAVE),
-                newButton("Translate again", Operations.DICTIONARY)
-        ),
-        listOf(
-                newButton("Menu", Operations.MENU)
-        )
-)
-
-fun afterSaveKeyboard(): InlineKeyboardMarkup = keyboardOf(
-        listOf(
-                newButton("Translate", Operations.TRANSLATE),
-                newButton("Dictionary", Operations.DICTIONARY)
-        ),
-        listOf(
-                newButton("Menu", Operations.MENU)
-        )
-)
-
 fun emptyDictionaryKeyboard(): InlineKeyboardMarkup = keyboardOf(
         listOf(
                 newButton("Translate", Operations.TRANSLATE),
                 newButton("Just add", Operations.ADD_TRANSLATION)
-        ),
-        listOf(
-                newButton("Menu", Operations.MENU)
-        )
-)
-
-fun afterAddKeyboard(): InlineKeyboardMarkup = keyboardOf(
-        listOf(
-                newButton("Add more", Operations.ADD_TRANSLATION),
-                newButton("Dictionary", Operations.DICTIONARY)
         ),
         listOf(
                 newButton("Menu", Operations.MENU)
@@ -106,14 +75,12 @@ fun afterDictionaryKeyboard(): InlineKeyboardMarkup = keyboardOf(
 
 fun oneLineKeyboard(vararg buttons: InlineKeyboardButton): InlineKeyboardMarkup = keyboardOf(buttons.toList())
 
-// TODO: rename
-fun menuKeyboard(): InlineKeyboardMarkup = oneLineKeyboard(
-        newButton("Dictionary", Operations.DICTIONARY),
+fun saveKeyboard(): InlineKeyboardMarkup = oneLineKeyboard(
+        newButton("Save", Operations.SAVE),
         newButton("Menu", Operations.MENU)
 )
 
-fun retryKeyboard(): InlineKeyboardMarkup = oneLineKeyboard(
-        // TODO: implement retryAdd
-        newButton("Retry", Operations.RETRY),
+fun dictionaryOrMenu(): InlineKeyboardMarkup = oneLineKeyboard(
+        newButton("Dictionary", Operations.DICTIONARY),
         newButton("Menu", Operations.MENU)
 )

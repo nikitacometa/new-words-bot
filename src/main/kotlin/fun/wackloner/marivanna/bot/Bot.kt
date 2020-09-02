@@ -43,6 +43,7 @@ class Bot(
             e.printStackTrace()
         }
 
+        Context.appContext = applicationContext
         val commands = applicationContext.getBeansOfType(KoreshCommand::class.java)
         registerAll(*commands.values.toTypedArray())
     }

@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service
 fun parseTranslation(text: String): SimpleTranslation? {
     val delimiter = when {
         text.contains("—") -> "—"
+        text.contains("--") -> "--"
         text.contains(" - ") -> " - "
         else -> return null
     }

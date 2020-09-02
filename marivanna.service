@@ -1,0 +1,17 @@
+# TODO: replace relative paths with absolute ones
+[Unit]
+Description=Dream Teacher
+After=syslog.target
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=~/marivanna
+ExecStart=~/marivanna/gradlew bootRun
+Restart=on-failure
+# envs
+Environment=GOOGLE_APPLICATION_CREDENTIALS=~/marivanna/src/main/resources/google_credentials.json
+
+[Install]
+WantedBy=multi-user.target

@@ -10,7 +10,7 @@ import org.telegram.telegrambots.meta.api.objects.CallbackQuery
 fun processMenu(chatId: Long) {
     resetInputRequests()
 
-    Context.bot.sendUpdate(chatId, "I will do whatever you want${Emojis.LOVE_FACE} (not really)", mainMenuKeyboard())
+    Context.bot.sendUpdate(chatId, "I'll do whatever you want${Emojis.LOVE_FACE}", mainMenuKeyboard())
 }
 
 fun processSave(userId: Int, chatId: Long) {
@@ -29,9 +29,8 @@ fun processSave(userId: Int, chatId: Long) {
     }
 
     val resultStr = formatSingleTranslation(translation.expression, translation.translation)
-    // TODO: 'oh DAMN your dictionary is SO big now': count
     Context.bot.sendUpdate(chatId,
-            "Oh yea baby... I remembered it for you ;)\n\n$resultStr", afterSaveKeyboard())
+            "$resultStr [saved]\n\n<i>Enter a word/phrase to translate more:</i>", dictionaryOrMenu())
 }
 
 fun processSettings(chatId: Long) {

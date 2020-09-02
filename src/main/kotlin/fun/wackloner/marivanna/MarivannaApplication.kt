@@ -21,11 +21,8 @@ class MarivannaApplication : SpringBootServletInitializer() {
 }
 
 fun main(args: Array<String>) {
-	val appContext = runApplication<MarivannaApplication>(*args)
+	runApplication<MarivannaApplication>(*args)
 
-	Context.appContext = appContext
-
-	val environment = appContext.getBean(Environment::class.java)
-
+	val environment = Context.appContext.getBean(Environment::class.java)
 	logger.info { "Available at http://localhost:${environment.getProperty("local.server.port")?.toInt()}" }
 }
