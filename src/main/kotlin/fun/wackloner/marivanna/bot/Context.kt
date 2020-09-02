@@ -7,6 +7,12 @@ import `fun`.wackloner.marivanna.services.TranslationService
 import org.springframework.context.ApplicationContext
 import org.springframework.stereotype.Component
 
+
+fun resetInputRequests() {
+    Context.waitingForTranslation = false
+    Context.waitingForTranslate = false
+}
+
 @Component
 class Context {
     companion object {
