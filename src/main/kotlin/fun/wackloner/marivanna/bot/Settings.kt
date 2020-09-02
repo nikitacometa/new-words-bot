@@ -15,4 +15,5 @@ object Settings {
     val BOT_USERNAME: String = properties.getProperty("bot.username")
 
     const val MAX_TEXT_LENGTH: Int = 1000
+    const val QUIZ_ANSWERS: Int = 4
 }

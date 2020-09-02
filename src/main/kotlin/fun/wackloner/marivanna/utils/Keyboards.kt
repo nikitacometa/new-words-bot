@@ -74,6 +74,11 @@ fun afterDictionaryKeyboard(chatId: Long): InlineKeyboardMarkup = keyboardOf(
 
 fun oneLineKeyboard(vararg buttons: InlineKeyboardButton): InlineKeyboardMarkup = keyboardOf(buttons.toList())
 
+fun afterQuizKeyboard(): InlineKeyboardMarkup = oneLineKeyboard(
+        newButton("Again", Operations.QUIZ),
+        newButton("Menu", Operations.MENU)
+)
+
 fun saveKeyboard(): InlineKeyboardMarkup = oneLineKeyboard(
         newButton("Save", Operations.SAVE),
         newButton("Menu", Operations.MENU)

@@ -17,5 +17,10 @@ fun tryProcessCommandData(message: Message): Boolean {
         return true
     }
 
+    if (Context.forChat(message.chatId).waitingForAnswer) {
+        processTranslate(message.text.toLowerCase(), message.chatId)
+        return true
+    }
+
     return false
 }

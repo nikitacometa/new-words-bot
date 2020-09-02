@@ -12,6 +12,35 @@ fun sendInProgress(chatId: Long) =
         Context.bot.sendUpdate(chatId, "${Emojis.SPIRAL} <i><b>4:20</b></i> ${Emojis.SPIRAL}",
                 oneLineKeyboard(newButton("Menu", Operations.MENU)))
 
+fun tryProgressAnswer(answer: String, chatId: Long): Boolean {
+    val optionNum = answer.toIntOrNull() ?: return false
+
+    val quiz = Context.forChat(chatId).currentQuiz
+    if (quiz == null) {
+        Context.bot.sendUpdate(chatId, "Sorry, no quizes for the moment... Wanna play, sweetie?${Emojis.WINKING}",
+                mainMenuKeyboard(chatId))
+        return true
+    }
+
+    if (optionNum == quiz.rightOption) {
+        Context.bot.sendUpdate(chatId, "Hell yea, right (:", afterQuizKeyboard())
+    } else {
+        Context.bot.sendUpdate(chatId,
+                "Wrong! :(\n\n${formatSingleTranslation(quiz.questionWord, quiz.options[quiz.rightOption].text)}",
+                afterQuizKeyboard())
+    }
+
+    return true
+}
+
+fun defaultButtonHandler(text: String, userId: Int, chatId: Long) {
+    if (tryProgressAnswer(text, chatId)) {
+        return
+    }
+
+    sendInProgress(chatId)
+}
+
 
 fun processCallbackQuery(callbackQuery: CallbackQuery) {
     val text = callbackQuery.data
@@ -25,6 +54,7 @@ fun processCallbackQuery(callbackQuery: CallbackQuery) {
         Operations.TRANSLATE -> promptTranslate(chatId)
         Operations.SAVE -> processSave(userId, chatId)
         Operations.SETTINGS -> processSettings(chatId)
-        else -> sendInProgress(chatId)
+        Operations.QUIZ -> processQuiz(userId, chatId)
+        else -> defaultButtonHandler(text, userId, chatId)
     }
 }
