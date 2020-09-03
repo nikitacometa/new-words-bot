@@ -20,6 +20,9 @@ class Emojis {
 
         const val COUNTER_CLOCKWISE = "\uD83D\uDD04"
 
+        const val RIGHT_ARROW = "▶️"
+        const val LEFT_ARROW = "◀️️"
+
         fun flag(countryCode: String): String = when(countryCode.toLowerCase()) {
             "en" -> "\uD83C\uDDFA\uD83C\uDDF8"
             "ua" -> "\uD83C\uDDFA\uD83C\uDDE6"

@@ -29,6 +29,8 @@ class ExpressionManager(val repository: ExpressionRepository) {
         val logger = KotlinLogging.logger {}
     }
 
+    val userExpressions: MutableMap<Int, MutableList<Expression>> = HashMap()
+
     fun addTranslationsFromString(text: String, userId: Int, chatId: Long): List<SimpleTranslation> {
         // TODO: extract language from text or verify within settings
         val newTranslations = text.toLowerCase().split("\n").mapNotNull { parseTranslation(it, userId, chatId) }
@@ -45,7 +47,7 @@ class ExpressionManager(val repository: ExpressionRepository) {
     fun addTranslation(userId: Int, chatId: Long, text: String, sourceLang: String, translation: String, destLang: String): Expression? {
         val existing = repository.findByUserIdAndText(userId, text)
 
-        val curExpression = when(existing.size) {
+        val curExpression = when (existing.size) {
             0 -> Expression(userId, text, sourceLang)
             1 -> existing[0]
             else -> {
@@ -57,9 +59,23 @@ class ExpressionManager(val repository: ExpressionRepository) {
         val updated = curExpression.withNewTranslation(translation, destLang)
 
         // TODO: handle duplicates differently (at least tell about them)
-        return repository.save(updated)
+        val res = repository.save(updated)
+
+        userExpressions[userId]?.removeIf { it.text == text }
+        userExpressions[userId]?.add(res)
+
+        return res
     }
 
     fun addTranslation(userId: Int, chatId: Long, t: SimpleTranslation): Expression? =
             addTranslation(userId, chatId, t.expression, t.sourceLang, t.translation, t.destLang)
+
+    fun getUserExpressions(userId: Int): MutableList<Expression> {
+        var res = userExpressions[userId]
+        if (res == null) {
+            res = repository.findByUserId(userId).toMutableList()
+            userExpressions[userId] = res
+        }
+        return res
+    }
 }

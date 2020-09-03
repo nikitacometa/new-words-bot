@@ -19,6 +19,8 @@ data class ChatData(
         var lastTranslation: SimpleTranslation? = null,
 
         var currentQuiz: Quiz? = null,
-        var questionsInARow: Int = 0
+        var questionsInARow: Int = 0,
+
+        var curDictPage: Int = 0
 ) {
 }

@@ -60,6 +60,10 @@ fun defaultButtonHandler(text: String, userId: Int, chatId: Long) {
         return
     }
 
+    if (tryChangePage(text, userId, chatId)) {
+        return
+    }
+
     sendInProgress(chatId)
 }
 

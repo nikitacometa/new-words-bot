@@ -1,6 +1,7 @@
 package `fun`.wackloner.marivanna.utils
 
 import `fun`.wackloner.marivanna.bot.Context
+import `fun`.wackloner.marivanna.bot.Settings
 import `fun`.wackloner.marivanna.model.Emojis
 import `fun`.wackloner.marivanna.model.Operations
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.InlineKeyboardMarkup
@@ -62,15 +63,24 @@ fun emptyDictionaryKeyboard(chatId: Long): InlineKeyboardMarkup = keyboardOf(
         )
 )
 
-fun afterDictionaryKeyboard(chatId: Long): InlineKeyboardMarkup = keyboardOf(
-        listOf(
-                newButton("Translate", Operations.TRANSLATE, chatId),
-                newButton("Add translations", Operations.ADD_TRANSLATION)
-        ),
-        listOf(
-                newButton("Menu", Operations.MENU)
-        )
-)
+fun dictionaryKeyboard(chatId: Long, size: Int, pageNum: Int): InlineKeyboardMarkup {
+    val navigateButtons: MutableList<InlineKeyboardButton> = ArrayList()
+    if (pageNum > 0) {
+            navigateButtons.add(newButton("first", Operations.BEGIN))
+            navigateButtons.add(newButton(Emojis.LEFT_ARROW, Operations.LEFT))
+    }
+    val lastPage = (size - 1) / Settings.DICT_PAGE_SIZE
+    if (pageNum < lastPage) {
+            navigateButtons.add(newButton(Emojis.RIGHT_ARROW, Operations.RIGHT))
+            navigateButtons.add(newButton("last", Operations.END))
+    }
+    val menuButtons = listOf(
+            newButton("T", Operations.TRANSLATE, chatId),
+            newButton("Add", Operations.ADD_TRANSLATION),
+            newButton("Menu", Operations.MENU)
+    )
+    return if (navigateButtons.isEmpty()) keyboardOf(menuButtons) else keyboardOf(navigateButtons, menuButtons)
+}
 
 
 fun oneLineKeyboard(vararg buttons: InlineKeyboardButton): InlineKeyboardMarkup = keyboardOf(buttons.toList())

@@ -18,6 +18,11 @@ object Operations {
 
     const val RETRY = "?retry"
 
+    const val RIGHT = "?right"
+    const val LEFT = "?left"
+    const val BEGIN = "?begin"
+    const val END = "?end"
+
     const val FIRST_OPTION = "?0"
     const val SECOND_OPTION = "?1"
     const val THIRD_OPTION = "?2"
