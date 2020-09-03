@@ -67,7 +67,7 @@ fun defaultButtonHandler(text: String, userId: Int, chatId: Long) {
 fun processCallbackQuery(callbackQuery: CallbackQuery) {
     val text = callbackQuery.data
     val userId = callbackQuery.from.id
-    val chatId: Long = userId.toLong()
+    val chatId: Long = callbackQuery.message.chatId
 
     when (text) {
         Operations.DICTIONARY -> showDictionary(userId, chatId)
